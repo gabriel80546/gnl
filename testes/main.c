@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/17 14:06:39 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/17 14:48:38 by gabriel          ###   ########.fr       */
+/*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
+/*   Updated: 2021/02/17 14:46:49 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../get_next_line.h"
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
+int	main(void)
+{
+	int fd;
+	char **linhas;
 
-int	get_next_line(int fd, char **line);
-
-#endif
+	fd = open("oloco.txt", O_RDONLY);
+	get_next_line(fd, linhas);
+	return (0);
+}

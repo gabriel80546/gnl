@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/18 11:20:52 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/18 11:43:45 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	main(void)
 		printf("*(linhas + %i) = '%s'(%ld)\n", i, *(linhas + i), strlen(*(linhas + i)));
 		i++;
 	}
-	
-	get_next_line(fd, linhas);
-	printf("*(linhas + 1) = '%s'(%ld)\n", *(linhas + 1), strlen(*(linhas + 1)));
+	printf("*(linhas + %i) = '%s'(%ld)\n", i, *(linhas + i), strlen(*(linhas + i)));
 	return (0);
 }

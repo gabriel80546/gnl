@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/18 11:31:04 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/18 12:14:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_next_line(int fd, char **line)
 	static int line_number = 0;
 
 	// size = BUFFER_SIZE;
-	*(line + line_number) = (char *)malloc(sizeof(char) * 50);
+	*(line + line_number) = (char *)malloc(sizeof(char) * 350);
 	buffer = (char *)malloc(sizeof(char) * 1);
 	last_read = read(fd, buffer, 1);
 	i = 0;
@@ -33,7 +33,7 @@ int	get_next_line(int fd, char **line)
 		// printf("*buffer = '%c'(%d)\n", *buffer, (int)*buffer);
 		if(last_read == 0)
 		{
-			*(*(line + line_number) + i) = '\0';
+			*(*(line + line_number) + i - 1) = '\0';
 			line_number++;
 			return (0);
 		}

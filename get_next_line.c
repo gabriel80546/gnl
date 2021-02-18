@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/18 09:44:11 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/18 10:10:32 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ int	get_next_line(int fd, char **line)
 	char *buffer;
 	char **nada;
 	int size;
+	int i;
 
 	size = BUFFER_SIZE;
 	nada = line;
 	line = nada;
-	buffer = (char *)malloc(sizeof(char) * 2);
+	buffer = (char *)malloc(sizeof(char) * size);
 	printf("fd = %d\n", fd);
 	read(fd, buffer, 1);
 	printf("%c", *(buffer + 0));

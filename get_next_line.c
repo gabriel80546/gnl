@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/20 10:27:06 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/20 10:44:44 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ int	get_next_line(int fd, char **line)
 		if(last_read < BUFFER_SIZE)
 		{
 			printf("encontramos um EOF nessa string '%s'(%ld)\n", buffer, strlen(buffer));
+			printf("agora finaliza\n");
 			j = 0;
 			while (j < last_read)
 			{
-				*(*(line + line_number) + j) = buffer[j + (i * BUFFER_SIZE)];
+				*(*(line + line_number) + j + i) = buffer[j + i];
 				j++;
 			}
 			line_number++;
@@ -101,7 +102,6 @@ int	get_next_line(int fd, char **line)
 				j++;
 			}
 			i += j;
-			printf("i = %d\n", i);
 		}
 	}
 	return (-1);

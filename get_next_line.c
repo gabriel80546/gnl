@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/20 10:44:44 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/20 10:57:31 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 
 	printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-	*(line + line_number) = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	*(line + line_number) = (char *)malloc(sizeof(char) * 10000 + 1);
 	*(*(line + line_number) + BUFFER_SIZE) = '\0';
 	i = 0;
 	last_read = read(fd, buffer, BUFFER_SIZE);
@@ -68,33 +68,37 @@ int	get_next_line(int fd, char **line)
 		if(last_read < BUFFER_SIZE)
 		{
 			printf("encontramos um EOF nessa string '%s'(%ld)\n", buffer, strlen(buffer));
-			printf("agora finaliza\n");
+			printf("agora finaliza i+j = %d\n", i + j);
 			j = 0;
 			while (j < last_read)
 			{
 				*(*(line + line_number) + j + i) = buffer[j + i];
 				j++;
 			}
+			*(*(line + line_number) + j + i) = '\0';
+			printf("*(linha + %d) = '%s'(%ld)\n", line_number, *(line + line_number), strlen(*(line + line_number)));
 			line_number++;
 			return (0);
 		}
 		else if(strchr(buffer, '\n') != NULL)
 		{
 			printf("tem um '\\n' nessa string '%s'(%ld)\n", buffer, strlen(buffer));
-			// printf("buffer = '%s'(%ld)\n", buffer, strlen(buffer));
+			printf("agora finaliza i+j = %d\n", i + j);
 			j = 0;
 			while (j < BUFFER_SIZE)
 			{
-				*(*(line + line_number) + j + (i * BUFFER_SIZE)) = buffer[j + (i * BUFFER_SIZE)];
+				*(*(line + line_number) + j + i) = buffer[j + i];
 				j++;
 			}
+			*(*(line + line_number) + j + i) = '\0';
+			printf("*(linha + %d) = '%s'(%ld)\n", line_number, *(line + line_number), strlen(*(line + line_number)));
 			line_number++;
 			return (1);
 		}
 		else
 		{
 			printf("nao tem um '\\n' nem o EOF nessa string '%s'(%ld)\n", buffer, strlen(buffer));
-			last_read = read(fd, buffer, BUFFER_SIZE);
+			printf("estamos no meio i+j = %d\n", i + j);
 			j = 0;
 			while (j < BUFFER_SIZE)
 			{
@@ -102,6 +106,8 @@ int	get_next_line(int fd, char **line)
 				j++;
 			}
 			i += j;
+			printf("*(linha + %d) = '%s'(%ld)\n", line_number, *(line + line_number), strlen(*(line + line_number)));
+			last_read = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
 	return (-1);

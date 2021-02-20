@@ -6,49 +6,102 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/18 12:14:22 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/20 10:27:06 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
+#include <string.h>
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 32
+#endif
 
 int	get_next_line(int fd, char **line)
 {
-	char *buffer;
+	char buffer[BUFFER_SIZE];
 	// int size;
 	int i;
+	int j;
 	int last_read;
 	static int line_number = 0;
 
-	// size = BUFFER_SIZE;
-	*(line + line_number) = (char *)malloc(sizeof(char) * 350);
-	buffer = (char *)malloc(sizeof(char) * 1);
-	last_read = read(fd, buffer, 1);
+	if(BUFFER_SIZE <= 0 && fd <= 0 && line == NULL)
+		return (-1);
+
+	printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
+	*(line + line_number) = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	*(*(line + line_number) + BUFFER_SIZE) = '\0';
 	i = 0;
-	*(*(line + line_number) + i) = *buffer;
-	i++;
+	last_read = read(fd, buffer, BUFFER_SIZE);
+	printf("primeiro read = %d\n", last_read);
+	printf("mas essa leitura(%d) foi menor que o buffer(%d)? %s\n", last_read, BUFFER_SIZE, (last_read < BUFFER_SIZE) ? "sim" : "nao");
+	if(last_read < BUFFER_SIZE)
+	{
+		printf("então encontrou o EOF na leitura\n");
+		j = 0;
+		while (j < last_read)
+		{
+			*(*(line + line_number) + j + (i * BUFFER_SIZE)) = buffer[j + (i * BUFFER_SIZE)];
+			j++;
+		}
+		line_number++;
+		return (0);
+	}
+	// else
+	// {
+	// 	printf("então não encontrou o EOF na leitura\n");
+	// 	last_read = read(fd, buffer, BUFFER_SIZE);
+	// 	printf("o read colocou '%s'(%ld) no buffer\n", buffer, strlen(buffer));
+	// 	j = 0;
+	// 	while (j < BUFFER_SIZE)
+	// 	{
+	// 		*(*(line + line_number) + j + (i * BUFFER_SIZE)) = buffer[j + (i * BUFFER_SIZE)];
+	// 		j++;
+	// 	}
+	// }
+	printf("então não encontrou o EOF na leitura\n");
+	printf("ENTRA NO WHILE ENTRA NO WHILE ENTRA NO WHILE ENTRA NO WHILE ENTRA NO WHILE\n");
 	while (1)
 	{
-		// printf("*buffer = '%c'(%d)\n", *buffer, (int)*buffer);
-		if(last_read == 0)
+		if(last_read < BUFFER_SIZE)
 		{
-			*(*(line + line_number) + i - 1) = '\0';
+			printf("encontramos um EOF nessa string '%s'(%ld)\n", buffer, strlen(buffer));
+			j = 0;
+			while (j < last_read)
+			{
+				*(*(line + line_number) + j) = buffer[j + (i * BUFFER_SIZE)];
+				j++;
+			}
 			line_number++;
 			return (0);
 		}
-		else if(*buffer == '\n')
+		else if(strchr(buffer, '\n') != NULL)
 		{
-			*(*(line + line_number) + i - 1) = '\0';
+			printf("tem um '\\n' nessa string '%s'(%ld)\n", buffer, strlen(buffer));
+			// printf("buffer = '%s'(%ld)\n", buffer, strlen(buffer));
+			j = 0;
+			while (j < BUFFER_SIZE)
+			{
+				*(*(line + line_number) + j + (i * BUFFER_SIZE)) = buffer[j + (i * BUFFER_SIZE)];
+				j++;
+			}
 			line_number++;
 			return (1);
 		}
 		else
 		{
-			// printf("merda entrou aqui com *buffer = %d\n", (int)*buffer);
-			last_read = read(fd, buffer, 1);
-			*(*(line + line_number) + i) = *buffer;
-			i++;
+			printf("nao tem um '\\n' nem o EOF nessa string '%s'(%ld)\n", buffer, strlen(buffer));
+			last_read = read(fd, buffer, BUFFER_SIZE);
+			j = 0;
+			while (j < BUFFER_SIZE)
+			{
+				*(*(line + line_number) + j + i) = buffer[j + i];
+				j++;
+			}
+			i += j;
+			printf("i = %d\n", i);
 		}
 	}
 	return (-1);

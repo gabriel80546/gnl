@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 09:57:06 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 10:30:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # define BUFFER_SIZE 32
 #endif
 
+// int printf (const char * fmt, ...)
+// {
+// 	if (fmt[0] == 7)
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
 static size_t	safe_strlen(const char *s)
 {
@@ -130,7 +137,6 @@ int				get_next_line(int fd, char **line)
 					j++;
 				}
 				i += j;
-				printf("deu merda?\n");
 			}
 		}
 		else if (read_saida == (BUFFER_SIZE + 1))
@@ -161,6 +167,30 @@ int				get_next_line(int fd, char **line)
 		else
 		{
 			printf("então EOF está proximo\n");
+			printf("read só leu %i\n", read_saida);
+			printf("buffer = '%s'(%ld)\n", buffer, safe_strlen(buffer));
+
+			printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao");
+			if (ft_strchr(buffer, '\n') != NULL)
+			{
+				printf("TODO: estamos proximo do EOF, e ainda tem '\\n' nesse caraio\n");
+			}
+			else
+			{
+				printf("ufa estamos proximo do EOF, e não tem '\\n' nessa merda\n");
+				printf("é só colocar tudo no *(line + line_number) e ja era\n");
+				printf("j = %i, i = %i, read_saida = %i\n", j, i, read_saida);
+				j = 0;
+				while (j < read_saida)
+				{
+					*(*(line + line_number) + j + i) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				*(*(line + line_number) + j + i) = '\0';
+				line_number++;
+				return (0);
+			}
 			break ;
 		}
 		// i++;

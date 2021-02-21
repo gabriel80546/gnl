@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 10:38:53 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 11:19:12 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static size_t	safe_strlen(const char *s)
 
 int				get_next_line(int fd, char **line)
 {
-	static char	buffer[BUFFER_SIZE] = {0};
+	static char	buffer[BUFFER_SIZE + 1] = {0};
 	static int	line_number = 0;
 	static int	last_offset = 0;
 	int			i;
@@ -50,6 +50,8 @@ int				get_next_line(int fd, char **line)
 	// int			split_w;
 
 	int debug = 0;
+	debug = 1;
+	debug = 0;
 
 	vazio = 0;
 	tinha = 0;
@@ -60,7 +62,7 @@ int				get_next_line(int fd, char **line)
 
 	if(debug == 1) { printf("bora porra, pega a linha %i\n", line_number); }
 	if (line_number == 0)
-		ft_memset(buffer, vazio, BUFFER_SIZE);
+		ft_memset(buffer, vazio, BUFFER_SIZE + 1);
 	if(debug == 1) { printf("last_offset = %i\n", last_offset); }
 
 	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
@@ -70,12 +72,12 @@ int				get_next_line(int fd, char **line)
 	{
 		if (buffer[i] != vazio)
 		{
-			if(debug == 1) { printf("buffer[%i] tem lixo = %i\n", i, buffer[i]); }
+			if(debug == 1) { printf("buffer[%i] tem lixo = %i  \t'%c'\n", i, buffer[i], buffer[i]); }
 			tinha = 1;
 		}
 		else
 		{
-			if(debug == 1) { printf("buffer[%i] = %i\n", i, buffer[i]); }
+			if(debug == 1) { printf("buffer[%i] = %i\t'%c'\n", i, buffer[i], buffer[i]); }
 		}
 		i++;
 	}
@@ -90,6 +92,7 @@ int				get_next_line(int fd, char **line)
 		{
 			if(debug == 1) { printf("entao vou usar o read\n"); }
 			read_saida = read(fd, buffer, BUFFER_SIZE);
+			buffer[BUFFER_SIZE] = '\0';
 		}
 		else
 		{
@@ -173,6 +176,14 @@ int				get_next_line(int fd, char **line)
 			if(debug == 1) { printf("então EOF está proximo\n"); }
 			if(debug == 1) { printf("read só leu %i\n", read_saida); }
 			if(debug == 1) { printf("buffer = '%s'(%ld)\n", buffer, safe_strlen(buffer)); }
+
+			if(debug == 1) { printf("read nem leu nada? %s\n", (read_saida == 0) ? "sim" : "nao"); }
+			if (read_saida == 0)
+			{
+				if(debug == 1) { printf("então ja acabou\n"); }
+				line_number++;
+				return (0);
+			}
 
 			if(debug == 1) { printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
 			if (ft_strchr(buffer, '\n') != NULL)

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 14:48:05 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 16:06:09 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int				get_next_line(int fd, char **line)
 	static char	buffer[BUFFER_SIZE + 1] = {0};
 	static int	line_number = 0;
 	static int	last_offset = 0;
+	char		buftemporario[BUFFER_SIZE + 1];
 	int			i;
 	int			j;
 	int			vazio;
@@ -161,12 +162,45 @@ int				get_next_line(int fd, char **line)
 		else if (read_saida == (BUFFER_SIZE + 1))
 		{
 			if(debug == 1) { printf("na verdade nem teve read. já tinha coisa nesse buffer\n"); }
-			if(debug == 1) { printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
-			if (ft_strchr(buffer, '\n') != NULL)
+
+
+
+			ft_memcpy(buftemporario, buffer, BUFFER_SIZE + 1);
+			j = 0;
+			while (j < BUFFER_SIZE)
+			{
+				if (buffer[j] == 0)
+					buftemporario[j] = ' ';
+				else
+					buftemporario[j] = buffer[j];
+				j++;
+			}
+			buftemporario[j] = '\0';
+			if(debug == 1) { printf("buftemporario = '%s'(%ld)\n", buftemporario, safe_strlen(buftemporario)); }
+
+			if(debug == 1) { printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buftemporario, '\n') != NULL) ? "sim" : "nao"); }
+
+			if (ft_strchr(buftemporario, '\n') != NULL)
 			{
 				if(debug == 1) { printf("tem um '\\n' nesse buffer\n"); }
 				if(debug == 1) { printf("TODO: e agora ????????????\n"); }
-				return (1);
+
+
+				j = last_offset;
+				while (1)
+				{
+					if(debug == 1) { printf("deu merda buscando '\\n' kkkkkk %i\n", j); }
+					if (buffer[j] == '\n')
+						break ;
+					*(*(line + line_number) + (j - last_offset)) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				*(*(line + line_number) + (j - last_offset)) = '\0';
+				buffer[j] = '\0';
+				last_offset = j + 1;
+				line_number++;
+				return (0);
 			}
 			else
 			{

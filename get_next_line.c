@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 09:15:51 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 09:33:07 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ static size_t	safe_strlen(const char *s)
 
 int				get_next_line(int fd, char **line)
 {
-	char		buffer[BUFFER_SIZE] = {0};
+	static char	buffer[BUFFER_SIZE] = {0};
 	static int	line_number = 0;
+	static int	last_offset = 0;
 	int			i;
 	int			j;
 	int			vazio;
@@ -45,8 +46,11 @@ int				get_next_line(int fd, char **line)
 	if(BUFFER_SIZE <= 0 || fd <= 0 || line == NULL)
 		return (-1);
 
+
+	printf("bora porra, pega a linha %i\n", line_number);
 	if (line_number == 0)
 		ft_memset(buffer, vazio, BUFFER_SIZE);
+	printf("last_offset = %i\n", last_offset);
 
 	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
 
@@ -79,6 +83,7 @@ int				get_next_line(int fd, char **line)
 		{
 			printf("entao não vou usar o read\n");
 			read_saida = BUFFER_SIZE + 1;
+			i += last_offset;
 		}
 		tinha = 0;
 		printf("read leu tudo? %s\n", (read_saida == BUFFER_SIZE) ? "sim" : "nao");
@@ -101,7 +106,15 @@ int				get_next_line(int fd, char **line)
 					buffer[j] = 0;
 					j++;
 				}
+				if (last_offset == 0 && 0)
+					last_offset = 0;
+				last_offset = j + 1;
+				printf("last offset é %i\n", j);
+				printf("last offset é %i\n", last_offset);
+				printf("buffer[last_offset] = %i\n", buffer[last_offset]);
+				printf("buffer[last_offset] = '%c'\n", buffer[last_offset]);
 				*(*(line + line_number) + j + i) = '\0';
+				buffer[j] = 0;
 				line_number++;
 				return (0);
 			}
@@ -123,6 +136,7 @@ int				get_next_line(int fd, char **line)
 		else if (read_saida == (BUFFER_SIZE + 1))
 		{
 			printf("na verdade nem teve read. já tinha coisa nesse buffer\n");
+
 		}
 		else
 		{

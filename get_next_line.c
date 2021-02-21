@@ -6,13 +6,14 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/20 21:49:05 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 09:15:51 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "libft/libft.h"
 
@@ -21,41 +22,116 @@
 #endif
 
 
-// static size_t	safe_strlen(const char *s)
-// {
-// 	return (s == NULL) ? 0 : ft_strlen(s);
-// }
+static size_t	safe_strlen(const char *s)
+{
+	return (s == NULL) ? 0 : ft_strlen(s);
+}
 
 int				get_next_line(int fd, char **line)
 {
 	char		buffer[BUFFER_SIZE] = {0};
 	static int	line_number = 0;
-	// int			i;
-	char		**saida;
+	int			i;
+	int			j;
+	int			vazio;
+	int			tinha;
+	// char		**saida;
 	int			read_saida;
-	int			split_w;
+	// int			split_w;
+
+	vazio = 0;
+	tinha = 0;
+
+	if(BUFFER_SIZE <= 0 || fd <= 0 || line == NULL)
+		return (-1);
 
 	if (line_number == 0)
-		ft_memset(buffer, 30, BUFFER_SIZE);
+		ft_memset(buffer, vazio, BUFFER_SIZE);
 
-	read_saida = read(fd, buffer, BUFFER_SIZE);
+	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
 
-	printf("read_saida = %i\n", read_saida);
-	printf("BUFFER_SIZE = %i\n", BUFFER_SIZE);
-	if(read_saida == BUFFER_SIZE)
+	i = 0;
+	while (i < BUFFER_SIZE)
 	{
-		saida = ft_split(buffer, '\n');
-		split_w = 0;
-		while (saida[split_w] != NULL)
-			split_w++;
-		printf("esse read encontrou %d palavras\n", split_w);
+		if (buffer[i] != vazio)
+		{
+			printf("buffer[%i] tem lixo = %i\n", i, buffer[i]);
+			tinha = 1;
+		}
+		else
+		{
+			printf("buffer[%i] = %i\n", i, buffer[i]);
+		}
+		i++;
 	}
-	else
+
+	i = 0;
+	j = 0;
+	while (1)
 	{
-		printf("merda\n");
+		printf("tinha algo no buffer? %s\n", (tinha) ? "sim" : "nao");
+		if (tinha == 0)
+		{
+			printf("entao vou usar o read\n");
+			read_saida = read(fd, buffer, BUFFER_SIZE);
+		}
+		else
+		{
+			printf("entao não vou usar o read\n");
+			read_saida = BUFFER_SIZE + 1;
+		}
+		tinha = 0;
+		printf("read leu tudo? %s\n", (read_saida == BUFFER_SIZE) ? "sim" : "nao");
+		if (read_saida == BUFFER_SIZE)
+		{
+			printf("então EOF está longe\n");
+
+			printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao");
+			if (ft_strchr(buffer, '\n') != NULL)
+			{
+				printf("tem quebra de linha nessa porra\n");
+				printf("buffer = '%s'(%ld)\n", buffer, safe_strlen(buffer));
+				printf("vou ter que escrever só parte\n");
+				j = 0;
+				while (j < BUFFER_SIZE)
+				{
+					if (buffer[j] == '\n')
+						break ;
+					*(*(line + line_number) + j + i) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				*(*(line + line_number) + j + i) = '\0';
+				line_number++;
+				return (0);
+			}
+			else
+			{
+				printf("não tem quebra de linha nessa disgraça\n");
+				printf("buffer = '%s'(%ld)\n", buffer, safe_strlen(buffer));
+				j = 0;
+				while (j < BUFFER_SIZE)
+				{
+					*(*(line + line_number) + j + i) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				i += j;
+				printf("deu merda?\n");
+			}
+		}
+		else if (read_saida == (BUFFER_SIZE + 1))
+		{
+			printf("na verdade nem teve read. já tinha coisa nesse buffer\n");
+		}
+		else
+		{
+			printf("então EOF está proximo\n");
+			break ;
+		}
+		// i++;
+		// break ;
 	}
-	line = NULL;
-	line = line;
 	return (1);
 }
 
@@ -69,7 +145,7 @@ int	get_next_line_old(int fd, char **line)
 	int last_read;
 	static int line_number = 0;
 
-	if(BUFFER_SIZE <= 0 && fd <= 0 && line == NULL)
+	if(BUFFER_SIZE <= 0 || fd <= 0 || line == NULL)
 		return (-1);
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 09:33:07 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 09:57:06 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int				get_next_line(int fd, char **line)
 	j = 0;
 	while (1)
 	{
+		printf("i já está = %i\n", i);
 		printf("tinha algo no buffer? %s\n", (tinha) ? "sim" : "nao");
 		if (tinha == 0)
 		{
@@ -83,7 +84,6 @@ int				get_next_line(int fd, char **line)
 		{
 			printf("entao não vou usar o read\n");
 			read_saida = BUFFER_SIZE + 1;
-			i += last_offset;
 		}
 		tinha = 0;
 		printf("read leu tudo? %s\n", (read_saida == BUFFER_SIZE) ? "sim" : "nao");
@@ -136,7 +136,27 @@ int				get_next_line(int fd, char **line)
 		else if (read_saida == (BUFFER_SIZE + 1))
 		{
 			printf("na verdade nem teve read. já tinha coisa nesse buffer\n");
-
+			printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao");
+			if (ft_strchr(buffer, '\n') != NULL)
+			{
+				printf("tem um '\\n' nesse buffer\n");
+				printf("TODO: e agora ????????????\n");
+				return (1);
+			}
+			else
+			{
+				printf("não tem um '\\n' nesse buffer\n");
+				printf("entao vou colocar esse finalzinho no inicio da linha\n");
+				j = last_offset;
+				while (j < BUFFER_SIZE)
+				{
+					*(*(line + line_number) + (j - last_offset)) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				printf("i = %i, j = %i, last_offset = %i\n", i, j, last_offset);
+				i += j - last_offset;
+			}
 		}
 		else
 		{

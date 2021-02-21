@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/21 11:19:12 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/21 14:48:05 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 
 
+	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
+
+
 	if(debug == 1) { printf("bora porra, pega a linha %i\n", line_number); }
 	if (line_number == 0)
 		ft_memset(buffer, vazio, BUFFER_SIZE + 1);
 	if(debug == 1) { printf("last_offset = %i\n", last_offset); }
 
-	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
+	
 
 	i = 0;
 	while (i < BUFFER_SIZE)
@@ -100,6 +103,15 @@ int				get_next_line(int fd, char **line)
 			read_saida = BUFFER_SIZE + 1;
 		}
 		tinha = 0;
+
+		if(debug == 1) { printf("read nem leu nada? %s\n", (read_saida == 0) ? "sim" : "nao"); }
+		if (read_saida == 0)
+		{
+			if(debug == 1) { printf("então ja acabou\n"); }
+			line_number++;
+			return (0);
+		}
+
 		if(debug == 1) { printf("read leu tudo? %s\n", (read_saida == BUFFER_SIZE) ? "sim" : "nao"); }
 		if (read_saida == BUFFER_SIZE)
 		{
@@ -176,14 +188,6 @@ int				get_next_line(int fd, char **line)
 			if(debug == 1) { printf("então EOF está proximo\n"); }
 			if(debug == 1) { printf("read só leu %i\n", read_saida); }
 			if(debug == 1) { printf("buffer = '%s'(%ld)\n", buffer, safe_strlen(buffer)); }
-
-			if(debug == 1) { printf("read nem leu nada? %s\n", (read_saida == 0) ? "sim" : "nao"); }
-			if (read_saida == 0)
-			{
-				if(debug == 1) { printf("então ja acabou\n"); }
-				line_number++;
-				return (0);
-			}
 
 			if(debug == 1) { printf("tem '\\n' nesse buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
 			if (ft_strchr(buffer, '\n') != NULL)

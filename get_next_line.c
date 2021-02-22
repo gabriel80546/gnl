@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/22 08:20:08 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/22 08:26:58 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,6 @@ int				get_next_line(int fd, char **line)
 					buffer[j] = 0;
 					j++;
 				}
-				if (last_offset == 0 && 0)
-					last_offset = 0;
 				last_offset = j + 1;
 				if(debug == 1) { printf("147: last offset é %i\n", j); }
 				if(debug == 1) { printf("148: last offset é %i\n", last_offset); }
@@ -245,8 +243,6 @@ int				get_next_line(int fd, char **line)
 					buffer[j] = 0;
 					j++;
 				}
-				if (last_offset == 0 && 0)
-					last_offset = 0;
 				last_offset = j + 1;
 				if(debug == 1) { printf("251: last offset é %i\n", j); }
 				if(debug == 1) { printf("252: last offset é %i\n", last_offset); }
@@ -276,10 +272,7 @@ int				get_next_line(int fd, char **line)
 				if(debug == 1) { printf("276: retorno 0\n"); }
 				return (0);
 			}
-			// break ;
 		}
-		// i++;
-		// break ;
 	}
 	if(debug == 1) { printf("284: retorno -1\n"); }
 	return (-1);

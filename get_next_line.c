@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/22 06:41:32 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/22 08:11:48 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 // 	else
 // 		return (0);
 // }
-
-
 
 static size_t	safe_strlen(const char *s)
 {
@@ -59,20 +57,17 @@ int				get_next_line(int fd, char **line)
 
 	if(BUFFER_SIZE <= 0 || fd <= 0 || line == NULL)
 	{
+		if(debug == 1) { printf("BUFFER_SIZE = %i, fd = %i, line = %p\n", BUFFER_SIZE, fd, line); }
 		if(debug == 1) { printf("retorno -1\n"); }
 		return (-1);
 	}
 
-
 	*(line + line_number) = (char *)malloc(sizeof(char) * 10000);
-
 
 	if(debug == 1) { printf("bora porra, pega a linha %i\n", line_number); }
 	if (line_number == 0)
 		ft_memset(buffer, vazio, BUFFER_SIZE + 1);
 	if(debug == 1) { printf("last_offset = %i\n", last_offset); }
-
-	
 
 	i = 0;
 	while (i < BUFFER_SIZE)
@@ -112,6 +107,15 @@ int				get_next_line(int fd, char **line)
 		if (read_saida == 0)
 		{
 			if(debug == 1) { printf("então ja acabou\n"); }
+			j = 0;
+			while (j < BUFFER_SIZE)
+			{
+				// if(debug == 1) { printf("buffer[%i] = '%c' =\t%d\n", j, buffer[j], buffer[j]); }
+				j++;
+			}
+			*(*(line + line_number) + j + 0) = '\0';
+			if(debug == 1) { printf("*(line + line_number) = '%s'(%ld)\n", *(line + line_number), safe_strlen(*(line + line_number))); }
+			if(debug == 1) { printf("i = %i; j = %i; i + j = %i\n", i, j, i + j); }
 			line_number++;
 			if(debug == 1) { printf("retorno 0\n"); }
 			return (0);
@@ -147,8 +151,8 @@ int				get_next_line(int fd, char **line)
 				*(*(line + line_number) + j + i) = '\0';
 				buffer[j] = 0;
 				line_number++;
-				if(debug == 1) { printf("retorno 0\n"); }
-				return (0);
+				if(debug == 1) { printf("retorno 1\n"); }
+				return (1);
 			}
 			else
 			{
@@ -190,11 +194,10 @@ int				get_next_line(int fd, char **line)
 				if(debug == 1) { printf("tem um '\\n' nesse buffer\n"); }
 				if(debug == 1) { printf("TODO: e agora ????????????\n"); }
 
-
 				j = last_offset;
 				while (1)
 				{
-					if(debug == 1) { printf("deu merda buscando '\\n' kkkkkk %i\n", j); }
+					if(debug == 1) { printf("deu merda buscando '\\n' kkkkkk %i %d '%c'\n", j, buffer[j], buffer[j]); }
 					if (buffer[j] == '\n')
 						break ;
 					*(*(line + line_number) + (j - last_offset)) = buffer[j];
@@ -205,8 +208,8 @@ int				get_next_line(int fd, char **line)
 				buffer[j] = '\0';
 				last_offset = j + 1;
 				line_number++;
-				if(debug == 1) { printf("retorno 0\n"); }
-				return (0);
+				if(debug == 1) { printf("retorno 1\n"); }
+				return (1);
 			}
 			else
 			{
@@ -233,6 +236,29 @@ int				get_next_line(int fd, char **line)
 			if (ft_strchr(buffer, '\n') != NULL)
 			{
 				if(debug == 1) { printf("TODO: estamos proximo do EOF, e ainda tem '\\n' nesse caraio\n"); }
+
+				j = 0;
+				while (j < BUFFER_SIZE)
+				{
+					if (buffer[j] == '\n')
+						break ;
+					*(*(line + line_number) + j + i) = buffer[j];
+					buffer[j] = 0;
+					j++;
+				}
+				if (last_offset == 0 && 0)
+					last_offset = 0;
+				last_offset = j + 1;
+				if(debug == 1) { printf("last offset é %i\n", j); }
+				if(debug == 1) { printf("last offset é %i\n", last_offset); }
+				if(debug == 1) { printf("buffer[last_offset] = %i\n", buffer[last_offset]); }
+				if(debug == 1) { printf("buffer[last_offset] = '%c'\n", buffer[last_offset]); }
+				*(*(line + line_number) + j + i) = '\0';
+				buffer[j] = 0;
+				line_number++;
+				if(debug == 1) { printf("retorno 1\n"); }
+				return (1);
+
 			}
 			else
 			{
@@ -251,11 +277,11 @@ int				get_next_line(int fd, char **line)
 				if(debug == 1) { printf("retorno 0\n"); }
 				return (0);
 			}
-			break ;
+			// break ;
 		}
 		// i++;
 		// break ;
 	}
-	if(debug == 1) { printf("retorno 1\n"); }
-	return (1);
+	if(debug == 1) { printf("retorno -1\n"); }
+	return (-1);
 }

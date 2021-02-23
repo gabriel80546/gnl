@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/23 12:52:18 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/23 13:07:03 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/resource.h>
 #include "libft/libft.h"
 
 #ifndef BUFFER_SIZE
@@ -94,7 +95,7 @@ int				get_next_line(int fd, char **line)
 	vazio = 0;
 	tinha = 0;
 
-	if(BUFFER_SIZE <= 0 || fd < 0 || line == NULL)
+	if(BUFFER_SIZE <= 0 || fd < 0 || line == NULL || fd > RLIMIT_NOFILE)
 	{
 		if(debug == 1) { printf("59: BUFFER_SIZE = %i, fd = %i, line = %p\n", BUFFER_SIZE, fd, line); }
 		if(debug == 1) { printf("60: retorno -1\n"); }

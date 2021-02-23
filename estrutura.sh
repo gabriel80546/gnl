@@ -2,6 +2,7 @@
 caminho=$(pwd)
 mkdir testeum
 git clone https://github.com/mrjvs/42cursus_gnl_tests testeum/repo
+chmod 775 testeum/repo/*.sh
 cp -r -v -n testeum/repo testeum/copia
 #echo $caminho
 caminho=$(echo $caminho | sed 's/\//\\\//g')

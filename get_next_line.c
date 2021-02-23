@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "libft/libft.h"
+//#include "libft/libft.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 32
@@ -33,7 +33,58 @@
 // {
 // 	return (s == NULL) ? 0 : ft_strlen(s);
 // }
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	contador;
 
+	contador = 0;
+	while (contador < n)
+	{
+		*((unsigned char *)s + contador) = (unsigned char)c;
+		contador++;
+	}
+	return (s);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	int	contador;
+
+	contador = 0;
+	while (*(s + contador) != '\0')
+		contador++;
+	return (contador);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*saida;
+
+	saida = (char *)s;
+	while (*(saida) != (char)c && *(saida) != '\0')
+	{
+		saida++;
+	}
+	if (*(saida) == (char)c)
+		return (saida);
+	else
+		return (NULL);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t	contador;
+
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	contador = 0;
+	while (contador < n)
+	{
+		*((char *)dest + contador) = *((char *)src + contador);
+		contador++;
+	}
+	return (dest);
+}
 
 
 int				get_next_line(int fd, char **line)

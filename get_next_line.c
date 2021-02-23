@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/23 12:46:19 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/23 12:52:18 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				get_next_line(int fd, char **line)
 	vazio = 0;
 	tinha = 0;
 
-	if(BUFFER_SIZE <= 0 || fd <= 0 || line == NULL)
+	if(BUFFER_SIZE <= 0 || fd < 0 || line == NULL)
 	{
 		if(debug == 1) { printf("59: BUFFER_SIZE = %i, fd = %i, line = %p\n", BUFFER_SIZE, fd, line); }
 		if(debug == 1) { printf("60: retorno -1\n"); }

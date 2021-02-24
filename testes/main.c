@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/24 15:59:56 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:39:14 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(void)
 	int fd;
 	// char **linhas;
 	char *linha;
-	char *numero;
+	// char *numero;
 	int i;
 
 	// linhas = (char **)malloc(sizeof(char *) * 50);
@@ -111,14 +111,15 @@ int	main(void)
 	i = 0;
 	while (get_next_line(fd, &linha) == 1)
 	{
-		numero = ft_itoa(i);
-		write(1, "linha[", 6);
-		write(1, numero, ft_strlen(numero));
-		write(1, "] = ", 4);
-		write(1, linha, 3);
-		write(1, "\n", 1);
+		// numero = ft_itoa(i);
+		// write(1, "linha[", 6);
+		// write(1, numero, ft_strlen(numero));
+		// write(1, "] = ", 4);
+		// write(1, linha, 3);
+		// write(1, "\n", 1);
+		printf("linha[%d] = '%s'(%ld)\n", i, linha, strlen(linha));
 		free(linha);
-		free(numero);
+		// free(numero);
 		i++;
 	}
 	// printf("linha[%i] = '%s'(%%ld)\n", i, linha/* , strlen(linha) */);

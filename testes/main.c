@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/24 12:08:28 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 13:41:08 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(void)
 	int i;
 
 	// linhas = (char **)malloc(sizeof(char *) * 50);
-	fd = open("1.txt", O_RDONLY);
+	fd = open("oloco.txt", O_RDONLY);
 	i = 0;
 	while (get_next_line(fd, &linha) == 1)
 	{

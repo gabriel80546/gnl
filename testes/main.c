@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/23 13:52:08 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 11:40:59 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ int	main(void)
 	// linhas = (char **)malloc(sizeof(char *) * 50);
 	fd = open("1.txt", O_RDONLY);
 	i = 0;
-	// while (get_next_line(fd, linhas) != 0)
 
-	write(1, "printa essa merda\n", 19);
+	get_next_line(fd, &linha);
+	write(1, linha, 10);
+	// printf("linha[%i] = '%s'(%%ld)\n", i, linha/* , strlen(linha) */);
+
+	/*
 	while (get_next_line(fd, &linha) != 0)
 	{
 		// printf("linha[%i] = '%s'(%ld)\n", i, linhas[i], strlen(linhas[i]));
@@ -42,6 +45,7 @@ int	main(void)
 	// printf("linha[%i] = '%s'(%ld)\n", i, linhas[i], strlen(linhas[i]));
 	printf("linha[%i] = '%s'(%ld)\n", i, linha, strlen(linha));
 	free(linha);
+	*/
 	return (0);
 }
 

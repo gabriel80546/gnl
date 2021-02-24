@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/24 13:51:22 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 15:59:06 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define BUFFER_SIZE 32
 #endif
 
-
 size_t	ft_strlen(const char *s)
 {
 	int	contador;
@@ -34,7 +33,6 @@ size_t	ft_strlen(const char *s)
 		contador++;
 	return (contador);
 }
-
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -79,21 +77,19 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	contador;
 	char	*saida;
 
 	saida = (char *)s;
-	contador = 0;
-	while (contador < n)
+	while (*(saida) != (char)c && *(saida) != '\0')
 	{
-		if (*(saida) == (char)c)
-			return (saida);
 		saida++;
-		contador++;
 	}
-	return (NULL);
+	if (*(saida) == (char)c)
+		return (saida);
+	else
+		return (NULL);
 }
 
 void	*ft_memset(void *s, int c, size_t n)
@@ -144,6 +140,7 @@ int		get_next_line(int fd, char **line)
 	static char	*buffer;
 	static int	line_number = 0;
 	static int	last_offset = 0;
+	char		*temp_temp_line;
 	char		*temp_line;
 	int			size_temp_line;
 	int			read_saida;
@@ -155,13 +152,13 @@ int		get_next_line(int fd, char **line)
 	debug = 1;
 
 
-	if(debug == 1) { printf("158: --------------------\n"); }
-	if(debug == 1) { printf("159: fd = %d\n", fd); }
-	if(debug == 1) { printf("160: line = %p\n", line); }
-	if(debug == 1) { printf("161: buffer = %p\n", buffer); }
-	if(debug == 1) { printf("162: line_number = %d\n", line_number); }
-	if(debug == 1) { printf("163: last_offset = %d\n", last_offset); }
-	if(debug == 1) { printf("164: --------------------\n"); }
+	if(debug == 1) { printf("155: --------------------\n"); }
+	if(debug == 1) { printf("156: fd = %d\n", fd); }
+	if(debug == 1) { printf("157: line = %p\n", line); }
+	if(debug == 1) { printf("158: buffer = %p\n", buffer); }
+	if(debug == 1) { printf("159: line_number = %d\n", line_number); }
+	if(debug == 1) { printf("160: last_offset = %d\n", last_offset); }
+	if(debug == 1) { printf("161: --------------------\n"); }
 
 
 	if(line_number == 0)
@@ -169,31 +166,55 @@ int		get_next_line(int fd, char **line)
 
 	temp_line = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	size_temp_line = 0;
+	temp_line[BUFFER_SIZE] = '\0';
 
-	read_saida = read(fd, buffer, BUFFER_SIZE);
-	buffer[BUFFER_SIZE] = '\0';
 
-	if(debug == 1) { printf("176: foi lido %d\n", read_saida); }
-	if(debug == 1) { printf("177: buffer = '"); print_nstring(buffer, read_saida); printf("'\n"); }
-
-	if (read_saida == 0)
-		return (-1);
-	else if (read_saida <= BUFFER_SIZE)
+	while (1)
 	{
-		if(debug == 1) { printf("183: houve uma leitura normal\n"); }
-		if(debug == 1) { printf("184: buffer = '"); print_nstring(buffer, read_saida); printf("'\n"); }
-		if(debug == 1) { printf("185: temp_line = '"); print_nstring(temp_line, read_saida); printf("'\n"); }
-		if(debug == 1) { printf("189: size_temp_line = %d\n", size_temp_line); }
+		read_saida = read(fd, buffer, BUFFER_SIZE);
+		buffer[BUFFER_SIZE] = '\0';
 
-		ft_memcpy(temp_line, buffer, read_saida);
-		size_temp_line += read_saida;
-		if(debug == 1) { printf("188: temp_line = '"); print_nstring(temp_line, read_saida); printf("'\n"); }
-		if(debug == 1) { printf("189: size_temp_line = %d\n", size_temp_line); }
+		if(debug == 1) { printf("177: foi lido %d\n", read_saida); }
+		if(debug == 1) { printf("178: buffer = '"); print_nstring(buffer, read_saida); printf("'\n"); }
 
-		free(temp_line);
-		return (-1);
+		if (read_saida == 0)
+			return (-1);
+		else if (read_saida <= BUFFER_SIZE)
+		{
+			if(debug == 1) { printf("184: houve uma leitura normal\n"); }
+			if(debug == 1) { printf("185: buffer = '"); print_nstring(buffer, read_saida); printf("'\n"); }
+			if(debug == 1) { printf("186: temp_line = '"); print_nstring(temp_line, read_saida); printf("'\n"); }
+			if(debug == 1) { printf("187: size_temp_line = %d\n", size_temp_line); }
+
+			if(debug == 1) { printf("189: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
+			if (ft_strchr(buffer, '\n') == NULL)
+			{
+				if(debug == 1) { printf("192: nao tem '\\n' no buffer\n"); }
+				if(debug == 1) { printf("193: apenas copie esse buffer em temp_line e leia denovo\n"); }
+
+				temp_temp_line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
+				temp_temp_line[size_temp_line] = '\0';
+				ft_memcpy(temp_temp_line, temp_line, size_temp_line);
+				free(temp_line);
+				size_temp_line += read_saida;
+				temp_line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
+				temp_line[size_temp_line] = '\0';
+				if(debug == 1) { printf("202: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
+				if(debug == 1) { printf("203: temp_temp_line = '"); print_nstring(temp_temp_line, size_temp_line - read_saida); printf("'\n"); }
+				if(debug == 1) { printf("204: size_temp_line = %d\n", size_temp_line); }
+				ft_memcpy(temp_line, temp_temp_line, size_temp_line - read_saida);
+				ft_memcpy(temp_line + size_temp_line - read_saida, buffer, read_saida);
+				free(temp_temp_line);
+				if(debug == 1) { printf("208: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
+				if(debug == 1) { printf("209: size_temp_line = %d\n", size_temp_line); }
+			}
+			else
+			{
+				if(debug == 1) { printf("213: tem '\\n' no buffer\n"); }
+				free(temp_line);
+				return (-1);
+			}
+		}
 	}
-
-
 	return (-1);
 }

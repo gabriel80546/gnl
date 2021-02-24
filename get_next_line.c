@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/24 11:56:27 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 12:09:27 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int		get_next_line(int fd, char **line)
 	if(debug == 1) { printf("145: line = %p\n", line); }
 	if(debug == 1) { printf("146: buffer = %p\n", buffer); }
 	if(debug == 1) { printf("147: line_number = %d\n", line_number); }
-	if(debug == 1) { printf("148: line_offset = %d\n", last_offset); }
+	if(debug == 1) { printf("148: last_offset = %d\n", last_offset); }
 	if(debug == 1) { printf("149: --------------------\n"); }
 
 	if(BUFFER_SIZE <= 0 || fd < 0 || line == NULL || fd > RLIMIT_NOFILE)
@@ -199,11 +199,11 @@ int		get_next_line(int fd, char **line)
 				last_offset += ((char *)ft_memchr(buffer, '\n', BUFFER_SIZE) - buffer);
 				if(debug == 1) { printf("200: last_offset = %d\n", last_offset); }
 				line_number++;
-				*line = (char *)ft_calloc(sizeof(char), last_offset);
+				if(debug == 1) { printf("202: copiando temp_line para *line e liberando a memoria\n"); }
+				*line = (char *)malloc(sizeof(char) * last_offset);
 				if (*line == NULL)
 					return (-1);
 				ft_memcpy(*line, temp_line, last_offset);
-				
 				free(temp_line);
 				return (1);
 			}
@@ -215,7 +215,7 @@ int		get_next_line(int fd, char **line)
 			}
 		}
 		else
-			break ;
+			return (-1);
 		if (i >= 2)
 			break ;
 		i++;

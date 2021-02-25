@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/24 21:43:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/24 21:47:44 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ int		get_next_line(int fd, char **line)
 		{
 			if(debug == 1) { printf("201: ultimo\n"); }
 			free(temp_line);
-			free(buffer);
+			// free(buffer);
 			return (-1);
 		}
 		else if (read_saida <= BUFFER_SIZE)
@@ -244,17 +244,17 @@ int		get_next_line(int fd, char **line)
 				size_temp_line += read_saida;
 				temp_line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
 				temp_line[size_temp_line] = '\0';
-				if(debug == 1) { printf("242: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
-				if(debug == 1) { printf("243: temp_temp_line = '"); print_nstring(temp_temp_line, size_temp_line - read_saida); printf("'\n"); }
-				if(debug == 1) { printf("244: size_temp_line = %d\n", size_temp_line); }
+				if(debug == 1) { printf("247: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
+				if(debug == 1) { printf("248: temp_temp_line = '"); print_nstring(temp_temp_line, size_temp_line - read_saida); printf("'\n"); }
+				if(debug == 1) { printf("249: size_temp_line = %d\n", size_temp_line); }
 				ft_memcpy(temp_line, temp_temp_line, size_temp_line - read_saida);
 				ft_memcpy(temp_line + size_temp_line - read_saida, buffer, read_saida);
 				free(temp_temp_line);
-				if(debug == 1) { printf("248: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
-				if(debug == 1) { printf("249: size_temp_line = %d\n", size_temp_line); }
+				if(debug == 1) { printf("253: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'\n"); }
+				if(debug == 1) { printf("254: size_temp_line = %d\n", size_temp_line); }
 
-				if(debug == 1) { printf("251: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'(%ld)\n", ft_strlen(temp_line)); }
-				if(debug == 1) { printf("252: size_temp_line = %d\n", size_temp_line); }
+				if(debug == 1) { printf("256: temp_line = '"); print_nstring(temp_line, size_temp_line); printf("'(%ld)\n", ft_strlen(temp_line)); }
+				if(debug == 1) { printf("257: size_temp_line = %d\n", size_temp_line); }
 				*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
 				ft_memcpy(*line, temp_line, size_temp_line);
 				free(temp_line);

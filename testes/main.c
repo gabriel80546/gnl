@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/24 19:19:29 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:00:33 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char		*ft_itoa(int n)
 // 		contador++;
 // 	return (contador);
 // }
+
 size_t	ft_strlen(const char *s);
 
 int	main(void)
@@ -105,11 +106,12 @@ int	main(void)
 	char *linha;
 	// char *numero;
 	int i;
+	int retorno;
 
 	// linhas = (char **)malloc(sizeof(char *) * 50);
 	fd = open("antigo.txt", O_RDONLY);
 	i = 0;
-	while (get_next_line(fd, &linha) == 1)
+	while ((retorno = get_next_line(fd, &linha) == 1))
 	{
 		// numero = ft_itoa(i);
 		// write(1, "linha[", 6);
@@ -117,25 +119,14 @@ int	main(void)
 		// write(1, "] = ", 4);
 		// write(1, linha, 3);
 		// write(1, "\n", 1);
-		printf("linha[%d] = '%s'(%ld)\n", i, linha, strlen(linha));
+		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
 		free(linha);
 		// free(numero);
+		// break ;
 		i++;
 	}
+	printf("retorno = %d\n", retorno);
 	// printf("linha[%i] = '%s'(%%ld)\n", i, linha/* , strlen(linha) */);
-
-	/*
-	while (get_next_line(fd, &linha) != 0)
-	{
-		// printf("linha[%i] = '%s'(%ld)\n", i, linhas[i], strlen(linhas[i]));
-		printf("linha[%i] = '%s'(%ld)\n", i, linha, strlen(linha));
-		free(linha);
-		i++;
-	}
-	// printf("linha[%i] = '%s'(%ld)\n", i, linhas[i], strlen(linhas[i]));
-	printf("linha[%i] = '%s'(%ld)\n", i, linha, strlen(linha));
-	free(linha);
-	*/
 	return (0);
 }
 
@@ -178,14 +169,14 @@ int	main_old(void)
 		return (1); }
 	printf("linha[%i] = '%s'(%ld)\n", i, linhas[i], strlen(linhas[i]));
 
-// printf("linha[%i] = '", i);
-// 	j = 0;
-// 	while (*(*(linhas + i) + j) != '\0')
-// 	{
-// 		printf("%c", linhas[i][j]);
-// 		j++;
-// 	}
-// 	printf("'\n");
+	// printf("linha[%i] = '", i);
+	// j = 0;
+	// while (*(*(linhas + i) + j) != '\0')
+	// {
+	// 	printf("%c", linhas[i][j]);
+	// 	j++;
+	// }
+	// printf("'\n");
 
 	i++;
 	if(get_next_line(fd, linhas) == 0) { 

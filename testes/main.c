@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/25 16:15:49 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:17:27 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,7 @@ int	main(void)
 		// break ;
 		i++;
 	}
-	printf("retorno = %d\n", retorno);
-	// printf("linha[%i] = '%s'(%%ld)\n", i, linha/* , strlen(linha) */);
+	printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
 	return (0);
 }
 

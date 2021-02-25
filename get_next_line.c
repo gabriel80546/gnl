@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/25 16:15:56 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/25 16:17:13 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,11 @@ int		get_next_line(int fd, char **line)
 		else if (read_saida == 0)
 		{
 			if(debug == 1) { printf("240: ultimo\n"); }
+			*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
+			ft_memcpy(*line, temp_line, size_temp_line);
 			free(temp_line);
+			line_number++;
+			// free(temp_line);
 			free(buffer);
 			return (-1);
 		}

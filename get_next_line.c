@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/25 16:37:12 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:00:11 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ void	*ft_calloc(size_t nmemb, size_t size)
 }
 
 void	*ft_calloco(size_t nmemb, size_t size)
+{
+	return ft_calloc(nmemb, size);
+}
+void	*ft_calloca(size_t nmemb, size_t size)
 {
 	return ft_calloc(nmemb, size);
 }
@@ -243,9 +247,10 @@ int		get_next_line(int fd, char **line)
 		else if (read_saida == 0)
 		{
 			if(debug == 1) { printf("245: ultimo\n"); }
-			*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
+			*line = (char *)ft_calloca(sizeof(char), size_temp_line + 1);
 			ft_memcpy(*line, temp_line, size_temp_line);
 			free(temp_line);
+			// *line = temp_line;
 			free(buffer);
 			line_number++;
 			return (-1);

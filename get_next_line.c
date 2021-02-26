@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 10:45:00 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 11:50:48 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,9 +226,15 @@ int		get_next_line(int fd, char **line)
 	if(debug == 1) { printf("226: --------------------\n"); }
 
 	if(line_number == 0)
+	{
 		buffer = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+		if (buffer == NULL)
+			return (-1);
+	}
 
 	temp_line = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+		if (temp_line == NULL)
+			return (-1);
 	size_temp_line = 0;
 
 	while (1)
@@ -256,6 +262,8 @@ int		get_next_line(int fd, char **line)
 			{
 				if(debug == 1) { printf("257: esse buffer nao tem dois '\\n'\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer + last_offset);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -264,6 +272,8 @@ int		get_next_line(int fd, char **line)
 
 				// temp_temp_line = ft_substr(temp_line, ft_strchr(temp_line, '\n') - temp_line + 1, BUFFER_SIZE - (ft_strchr(temp_line, '\n') - temp_line));
 				temp_temp_line = ft_substr(temp_line, 0, BUFFER_SIZE - (ft_strchr(temp_line, '\n') - temp_line));
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -276,6 +286,8 @@ int		get_next_line(int fd, char **line)
 			{
 				if(debug == 1) { printf("277: esse buffer tem dois '\\n'\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -285,6 +297,8 @@ int		get_next_line(int fd, char **line)
 				if(debug == 1) { printf("285: ft_strchr(buffer + last_offset, '\\n') - buffer - last_offset = %ld\n", ft_strchr(buffer + last_offset, '\n') - buffer - last_offset); }
 
 				temp_temp_line = ft_substr(temp_line, last_offset, ft_strchr(buffer + last_offset, '\n') - buffer - last_offset);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -307,6 +321,8 @@ int		get_next_line(int fd, char **line)
 			if(debug == 1) { printf("307: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
 
 			*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
+				if (*line == NULL)
+					return (-1);
 			ft_memcpy(*line, temp_line, size_temp_line);
 			free(temp_line);
 			// *line = temp_line;
@@ -326,6 +342,8 @@ int		get_next_line(int fd, char **line)
 			{
 				if(debug == 1) { printf("327: tem '\\n' nesse buffer\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -333,6 +351,8 @@ int		get_next_line(int fd, char **line)
 				if(debug == 1) { printf("333: temp_line = '%s'\n", temp_line); }
 
 				temp_temp_line = ft_substr(temp_line, 0, ft_strchr(temp_line, '\n') - temp_line);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
@@ -350,6 +370,8 @@ int		get_next_line(int fd, char **line)
 			{
 				if(debug == 1) { printf("351: nao tem '\\n' nesse buffer\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer);
+				if (temp_temp_line == NULL)
+					return (-1);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);

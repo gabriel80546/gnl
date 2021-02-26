@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:39 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/18 09:41:09 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 19:24:52 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int	get_next_line(int fd, char **line);
+int	get_next_line(int fd, char **line/* , int extra */);
 
 #endif

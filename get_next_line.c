@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 18:47:31 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 19:25:17 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ char	*ft_strdup(const char *s)
 	return (saida);
 }
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line/* , int extra */)
 {
 	static char	*buffer;
 	static int	line_number = 0;
@@ -316,7 +316,7 @@ int		get_next_line(int fd, char **line)
 			free(temp_line);
 			// *line = temp_line;
 			free(buffer);
-			line_number++;
+			line_number = 0;
 
 			return (0);
 		}

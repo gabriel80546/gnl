@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 20:04:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 20:12:43 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ int		get_next_line(int fd, char **line/* , int extra */)
 				if(debug == 1) { printf("243: read_saida = %d\n", read_saida); }
 				free(temp_line);
 				free(buffer);
-				*line = (char *)ft_calloc(sizeof(char), 1);
+				// *line = (char *)ft_calloc(sizeof(char), 1);
 				line_number = 0;
 				return (-1);
 			}

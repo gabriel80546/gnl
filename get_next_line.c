@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 19:32:36 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 20:04:35 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,7 @@ int		get_next_line(int fd, char **line/* , int extra */)
 	temp_line = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	size_temp_line = 0;
 
+	
 	while (1)
 	{
 		if (last_offset == 0)
@@ -238,9 +239,11 @@ int		get_next_line(int fd, char **line/* , int extra */)
 			read_saida = read(fd, buffer, BUFFER_SIZE);
 			if (read_saida < 0 || read_saida > BUFFER_SIZE)
 			{
-				// free(temp_line);
-				// free(buffer);
-				// *line = (char *)ft_calloc(sizeof(char), 1);
+				if(debug == 1) { printf("242: houve erro no read\n"); }
+				if(debug == 1) { printf("243: read_saida = %d\n", read_saida); }
+				free(temp_line);
+				free(buffer);
+				*line = (char *)ft_calloc(sizeof(char), 1);
 				line_number = 0;
 				return (-1);
 			}

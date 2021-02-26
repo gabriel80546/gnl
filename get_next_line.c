@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 08:53:29 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 09:02:58 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,10 +266,10 @@ int		get_next_line(int fd, char **line)
 		else if (read_saida == 0)
 		{
 			if(debug == 1) { printf("268: ultimo read feito\n"); }
-			if(debug == 1) { printf("274: buffer = '%s'\n", buffer); }
-			if(debug == 1) { printf("275: temp_line = '%s'\n", temp_line); }
-			if(debug == 1) { printf("275: size_temp_line = %d\n", size_temp_line); }
-			if(debug == 1) { printf("276: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
+			if(debug == 1) { printf("269: buffer = '%s'\n", buffer); }
+			if(debug == 1) { printf("270: temp_line = '%s'\n", temp_line); }
+			if(debug == 1) { printf("271: size_temp_line = %d\n", size_temp_line); }
+			if(debug == 1) { printf("272: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
 
 			*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
 			ft_memcpy(*line, temp_line, size_temp_line);
@@ -282,42 +282,44 @@ int		get_next_line(int fd, char **line)
 		}
 		else if (read_saida <= BUFFER_SIZE)
 		{
-			if(debug == 1) { printf("273: leitura normal\n"); }
-			if(debug == 1) { printf("274: buffer = '%s'\n", buffer); }
-			if(debug == 1) { printf("275: temp_line = '%s'\n", temp_line); }
-			if(debug == 1) { printf("276: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
+			if(debug == 1) { printf("285: leitura normal\n"); }
+			if(debug == 1) { printf("286: buffer = '%s'\n", buffer); }
+			if(debug == 1) { printf("287: temp_line = '%s'\n", temp_line); }
+			if(debug == 1) { printf("288: tem '\\n' no buffer? %s\n", (ft_strchr(buffer, '\n') != NULL) ? "sim" : "nao"); }
 
 			if (ft_strchr(buffer, '\n') != NULL)
 			{
-				if(debug == 1) { printf("280: tem '\\n' nesse buffer\n"); }
+				if(debug == 1) { printf("292: tem '\\n' nesse buffer\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
-				if(debug == 1) { printf("285: buffer = '%s'\n", buffer); }
-				if(debug == 1) { printf("286: temp_line = '%s'\n", temp_line); }
+				if(debug == 1) { printf("297: buffer = '%s'\n", buffer); }
+				if(debug == 1) { printf("298: temp_line = '%s'\n", temp_line); }
 
 				temp_temp_line = ft_substr(temp_line, 0, ft_strchr(temp_line, '\n') - temp_line);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
 				*line = temp_line;
-				if(debug == 1) { printf("293: buffer = '%s'\n", buffer); }
-				if(debug == 1) { printf("294: temp_line = '%s'\n", temp_line); }
+				if(debug == 1) { printf("305: buffer = '%s'\n", buffer); }
+				if(debug == 1) { printf("306: temp_line = '%s'\n", temp_line); }
+				if(debug == 1) { printf("307: last_offset = %d\n", last_offset); }
 
-				last_offset += ft_strchr(buffer, '\n') - buffer;
+				last_offset += ft_strchr(buffer, '\n') - buffer + 1;
+				if(debug == 1) { printf("310: last_offset = %d\n", last_offset); }
 				line_number++;
 				return (1);
 			}
 			else
 			{
-				if(debug == 1) { printf("302: nao tem '\\n' nesse buffer\n"); }
+				if(debug == 1) { printf("316: nao tem '\\n' nesse buffer\n"); }
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
-				if(debug == 1) { printf("307: buffer = '%s'\n", buffer); }
-				if(debug == 1) { printf("308: temp_line = '%s'\n", temp_line); }
+				if(debug == 1) { printf("321: buffer = '%s'\n", buffer); }
+				if(debug == 1) { printf("322: temp_line = '%s'\n", temp_line); }
 			}
 		}
 	}

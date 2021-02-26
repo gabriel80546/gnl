@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 12:59:00 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:47:31 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ char	*ft_strdup(const char *s)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	*buffer;
 	static int	line_number = 0;
 	static int	last_offset = 0;
 	char		*temp_temp_line;
@@ -225,8 +225,8 @@ int		get_next_line(int fd, char **line)
 	if(debug == 1) { printf("225: last_offset = %d\n", last_offset); }
 	if(debug == 1) { printf("226: --------------------\n"); }
 
-	// if(line_number == 0)
-	// 	buffer = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if(line_number == 0)
+		buffer = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 
 	temp_line = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	size_temp_line = 0;
@@ -236,9 +236,14 @@ int		get_next_line(int fd, char **line)
 		if (last_offset == 0)
 		{
 			read_saida = read(fd, buffer, BUFFER_SIZE);
-			buffer[read_saida] = '\0';
 			if (read_saida < 0 || read_saida > BUFFER_SIZE)
+			{
+				// free(temp_line);
+				// free(buffer);
+				// *line = (char *)ft_calloc(sizeof(char), 1);
 				return (-1);
+			}
+			buffer[read_saida] = '\0';
 		}
 
 
@@ -310,7 +315,7 @@ int		get_next_line(int fd, char **line)
 			ft_memcpy(*line, temp_line, size_temp_line);
 			free(temp_line);
 			// *line = temp_line;
-			// free(buffer);
+			free(buffer);
 			line_number++;
 
 			return (0);

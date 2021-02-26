@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/26 12:30:47 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:45:03 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int	main(void)
 	int retorno;
 
 	// linhas = (char **)malloc(sizeof(char *) * 50);
-	fd = open("antigo.txt", O_RDONLY);
+	fd = open("4.txt", O_RDONLY);
+	fd = 1123456789;
 	i = 0;
 	while ((retorno = get_next_line(fd, &linha) == 1) && (i < 4 || 1))
 	{
@@ -125,8 +126,11 @@ int	main(void)
 		// break ;
 		i++;
 	}
-	printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
-	free(linha);
+	if (retorno != -1)
+	{
+		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
+		free(linha);
+	}
 	return (0);
 }
 

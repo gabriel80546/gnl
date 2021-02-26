@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 10:17:55 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/26 10:38:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,10 +237,10 @@ int		get_next_line(int fd, char **line)
 		{
 			read_saida = read(fd, buffer, BUFFER_SIZE);
 			buffer[read_saida] = '\0';
+			if (read_saida < 0 || read_saida > BUFFER_SIZE)
+				return (-1);
 		}
 
-		if (read_saida < 0 || read_saida > BUFFER_SIZE)
-			return (-1);
 
 		if (last_offset != 0)
 		{

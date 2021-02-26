@@ -1,0 +1,329 @@
+# callgrind format
+version: 1
+creator: xtree-1
+pid: 11552
+cmd: ./main
+
+positions: line
+event: curB : currently allocated Bytes
+event: curBk : currently allocated Blocks
+event: totB : total allocated Bytes
+event: totBk : total allocated Blocks
+event: totFdB : total Freed Bytes
+event: totFdBk : total Freed Blocks
+events: curB  curBk  totB  totBk  totFdB  totFdBk 
+fl=(1) /home/gabriel/Desktop/qd/projetos/gnl/gnl/testes/main.c
+fn=(1) main
+114
+cfi=(2) /home/gabriel/Desktop/qd/projetos/gnl/gnl/testes/../get_next_line.c
+cfn=(2) get_next_line
+calls=0 229
+114 0 0 21 1 0 0
+fl=(2)
+fn=(2)
+229
+cfi=(2)
+cfn=(3) ft_calloc
+calls=0 150
+229 0 0 21 1 0 0
+fl=(2)
+fn=(3)
+150 0 0 21 1 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 231
+114 0 0 126 6 0 0
+fl=(2)
+fn=(2)
+231
+cfi=(2)
+cfn=(3)
+calls=0 150
+231 0 0 126 6 0 0
+fl=(2)
+fn=(3)
+150 0 0 126 6 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 352
+114 0 0 403 11 0 0
+fl=(2)
+fn=(2)
+352
+cfi=(2)
+cfn=(4) ft_strjoin
+calls=0 45
+352 0 0 403 11 0 0
+fl=(2)
+fn=(4)
+45 0 0 403 11 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 353
+114 0 0 0 0 213 11
+fl=(2)
+fn=(2)
+353 0 0 0 0 213 11
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 328
+114 0 0 319 5 0 0
+fl=(2)
+fn=(2)
+328
+cfi=(2)
+cfn=(4)
+calls=0 45
+328 0 0 319 5 0 0
+fl=(2)
+fn=(4)
+45 0 0 319 5 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 329
+114 0 0 0 0 219 5
+fl=(2)
+fn=(2)
+329 0 0 0 0 219 5
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 335
+114 0 0 268 5 0 0
+fl=(2)
+fn=(2)
+335
+cfi=(2)
+cfn=(5) ft_substr
+calls=0 127
+335 0 0 268 5 0 0
+fl=(2)
+fn=(5)
+127 0 0 268 5 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 336
+114 0 0 0 0 319 5
+fl=(2)
+fn=(2)
+336 0 0 0 0 319 5
+
+fl=(1)
+fn=(1)
+122
+cfi=(3) ./stdio-common/printf.c
+cfn=(6) printf
+calls=0 33
+122 0 0 1024 1 0 0
+fl=(3)
+fn=(6)
+33
+cfi=(4) ./stdio-common/vfprintf-internal.c
+cfn=(7) __vfprintf_internal
+calls=0 239
+33 0 0 1024 1 0 0
+fl=(4)
+fn=(7)
+239
+cfi=(5) ./libio/fileops.c
+cfn=(8) _IO_file_xsputn@@GLIBC_2.2.5
+calls=0 1244
+239 0 0 1024 1 0 0
+fl=(5)
+fn=(8)
+1244
+cfi=(5)
+cfn=(9) _IO_file_overflow@@GLIBC_2.2.5
+calls=0 745
+1244 0 0 1024 1 0 0
+fl=(5)
+fn=(9)
+745
+cfi=(6) ./libio/genops.c
+cfn=(10) _IO_doallocbuf
+calls=0 347
+745 0 0 1024 1 0 0
+fl=(6)
+fn=(10)
+347
+cfi=(7) ./libio/filedoalloc.c
+cfn=(11) _IO_file_doallocate
+calls=0 101
+347 0 0 1024 1 0 0
+fl=(7)
+fn=(11)
+101 0 0 1024 1 0 0
+
+fl=(1)
+fn=(1)
+123 0 0 0 0 268 5
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 258
+114 0 0 51 5 0 0
+fl=(2)
+fn=(2)
+258
+cfi=(2)
+cfn=(4)
+calls=0 45
+258 0 0 51 5 0 0
+fl=(2)
+fn=(4)
+45 0 0 51 5 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 259
+114 0 0 0 0 105 5
+fl=(2)
+fn=(2)
+259 0 0 0 0 105 5
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 266
+114 0 0 51 5 0 0
+fl=(2)
+fn=(2)
+266
+cfi=(2)
+cfn=(5)
+calls=0 127
+266 0 0 51 5 0 0
+fl=(2)
+fn=(5)
+127 0 0 51 5 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 267
+114 0 0 0 0 51 5
+fl=(2)
+fn=(2)
+267 0 0 0 0 51 5
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 309
+114 0 0 43 1 0 0
+fl=(2)
+fn=(2)
+309
+cfi=(2)
+cfn=(3)
+calls=0 150
+309 0 0 43 1 0 0
+fl=(2)
+fn=(3)
+150 0 0 43 1 0 0
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 311
+114 0 0 0 0 43 1
+fl=(2)
+fn=(2)
+311 0 0 0 0 43 1
+
+fl=(1)
+fn=(1)
+114
+cfi=(2)
+cfn=(2)
+calls=0 313
+114 0 0 0 0 21 1
+fl=(2)
+fn=(2)
+313 0 0 0 0 21 1
+
+fl=(1)
+fn=(1)
+129 0 0 0 0 43 1
+
+fl=(8) ./csu/../csu/libc-start.c
+fn=(12) (below main)
+348
+cfi=(9) ./stdlib/exit.c
+cfn=(13) exit
+calls=0 139
+348 0 0 0 0 1024 1
+fl=(9)
+fn=(13)
+139
+cfi=(9)
+cfn=(14) __run_exit_handlers
+calls=0 132
+139 0 0 0 0 1024 1
+fl=(9)
+fn=(14)
+132
+cfi=(10) UnknownFile???
+cfn=(15) _vgnU_freeres
+calls=0 0
+132 0 0 0 0 1024 1
+fl=(10)
+fn=(15)
+0
+cfi=(10)
+cfn=(16) __libc_freeres
+calls=0 0
+0 0 0 0 0 1024 1
+fl=(10)
+fn=(16)
+0
+cfi=(10)
+cfn=(17) buffer_free
+calls=0 0
+0 0 0 0 0 1024 1
+fl=(10)
+fn=(17)
+0 0 0 0 0 1024 1
+
+totals: 0 0 2306 40 2306 40

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/27 09:50:42 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 12:01:57 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(void)
 	i = 0;
 	// linhas = (char **)malloc(sizeof(char *) * 50);
 
-	fd = open("antigo.txt", O_RDONLY);
+	fd = open("64bit_line.txt", O_RDONLY);
 	while ((retorno = get_next_line(fd, &linha/* , 0 */) == 1) && (i < 4 || 1))
 	{
 		// numero = ft_itoa(i);

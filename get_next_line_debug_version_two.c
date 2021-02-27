@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_debug_version_two.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 09:47:04 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 12:31:25 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,9 @@ int		get_next_line(int fd, char **line/* , int extra */)
 	int			debug;
 	debug = 0;
 	debug = 1;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
+		return (-1);
 
 	int fd1;
 	char *string;

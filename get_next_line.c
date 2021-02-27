@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 12:27:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 12:50:39 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	saida = malloc(nmemb * size);
 	if (saida == NULL)
 		return (NULL);
-	ft_memset(saida, 0, nmemb * size);
+	// ft_memset(saida, 0, nmemb * size);
 	return (saida);
 }
 
@@ -214,8 +214,8 @@ int		get_next_line(int fd, char **line/* , int extra */)
 	// int			j;
 
 	int			debug;
-	debug = 1;
 	debug = 0;
+	debug = 1;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
@@ -229,9 +229,12 @@ int		get_next_line(int fd, char **line/* , int extra */)
 	if(debug == 1) { printf("226: --------------------\n"); }
 
 	if(line_number == 0)
+	{
 		buffer = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+		buffer[0] = '\0';
+	}
 
-	temp_line = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	temp_line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	size_temp_line = 0;
 
 	while (1)

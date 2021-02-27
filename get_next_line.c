@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 16:03:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 16:08:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 32
 #endif
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t	contador;
+
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	contador = 0;
+	while (contador < n)
+	{
+		*((char *)dest + contador) = *((char *)src + contador);
+		contador++;
+	}
+	return (dest);
+}
 
 size_t		ft_strlen(const char *s)
 {

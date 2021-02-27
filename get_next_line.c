@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 13:05:37 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 13:08:28 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int		get_next_line(int fd, char **line/* , int extra */)
 	}
 
 	temp_line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	temp_line = '\0';
+	temp_line[0] = '\0';
 	size_temp_line = 0;
 
 	while (1)

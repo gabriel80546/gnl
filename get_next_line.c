@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 16:01:19 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 16:03:02 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,10 @@ int			get_next_line(int fd, char **line)
 	if (line_number == 0)
 	{
 		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if ((BUFFER_SIZE + 1) > 10)
-			ft_memset(buffer, 0, 10);
-		else
-			ft_memset(buffer, 0, (BUFFER_SIZE + 1));
+		ft_memset(buffer, 0, ft_min((BUFFER_SIZE + 1), 10));
 	}
 	temp_line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if ((BUFFER_SIZE + 1) > 10)
-		ft_memset(temp_line, 0, 10);
-	else
-		ft_memset(temp_line, 0, (BUFFER_SIZE + 1));
+	ft_memset(temp_line, 0, ft_min((BUFFER_SIZE + 1), 10));
 	while (1)
 	{
 		if (last_offset == 0)

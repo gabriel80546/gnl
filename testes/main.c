@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/26 20:01:00 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 09:50:42 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(void)
 	i = 0;
 	// linhas = (char **)malloc(sizeof(char *) * 50);
 
-	fd = (1) ? 13546574 : open("4.txt", O_RDONLY);
+	fd = open("antigo.txt", O_RDONLY);
 	while ((retorno = get_next_line(fd, &linha/* , 0 */) == 1) && (i < 4 || 1))
 	{
 		// numero = ft_itoa(i);
@@ -131,28 +131,5 @@ int	main(void)
 		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
 		free(linha);
 	}
-	i = 0;
-	/*
-	fd = open("1.txt", O_RDONLY);
-	while ((retorno = get_next_line(fd, &linha , 1 ) == 1) && (i < 4 || 1))
-	{
-		// numero = ft_itoa(i);
-		// write(1, "linha[", 6);
-		// write(1, numero, ft_strlen(numero));
-		// write(1, "] = ", 4);
-		// write(1, linha, 3);
-		// write(1, "\n", 1);
-		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
-		free(linha);
-		// free(numero);
-		// break ;
-		i++;
-	}
-	if (retorno != -1)
-	{
-		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
-		free(linha);
-	}
-	*/
 	return (0);
 }

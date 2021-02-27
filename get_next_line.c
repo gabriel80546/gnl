@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/26 20:12:43 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 09:53:32 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,10 +269,11 @@ int		get_next_line(int fd, char **line/* , int extra */)
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);
 				if(debug == 1) { printf("262: buffer + last_offset = '%s'\n", buffer + last_offset); }
-				if(debug == 1) { printf("263: temp_line = '%s'\n", temp_line); }
+				if(debug == 1) { printf("263: temp_line = '%s'(%ld)\n", temp_line, ft_strlen(temp_line)); }
+				if(debug == 1) { printf("263: (ft_strchr(temp_line, '\\n') - temp_line = %ld\n", (ft_strchr(temp_line, '\n') - temp_line)); }
 
 				// temp_temp_line = ft_substr(temp_line, ft_strchr(temp_line, '\n') - temp_line + 1, BUFFER_SIZE - (ft_strchr(temp_line, '\n') - temp_line));
-				temp_temp_line = ft_substr(temp_line, 0, BUFFER_SIZE - (ft_strchr(temp_line, '\n') - temp_line));
+				temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
 				free(temp_line);
 				temp_line = temp_temp_line;
 				size_temp_line = ft_strlen(temp_line);

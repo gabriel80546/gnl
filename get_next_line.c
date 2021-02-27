@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 13:13:29 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 13:34:18 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,10 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	saida = malloc(nmemb * size);
 	if (saida == NULL)
 		return (NULL);
-	ft_memset(saida, 0, nmemb * size);
+	if ((nmemb * size) > 10000000)
+		ft_memset(saida, 0, 10000000);
+	else
+		ft_memset(saida, 0, nmemb * size);
 	return (saida);
 }
 
@@ -230,7 +233,7 @@ int		get_next_line(int fd, char **line/* , int extra */)
 
 	if(line_number == 0)
 	{
-		buffer = (char *)malloc(sizeof(char), (BUFFER_SIZE + 1));
+		buffer = (char *)ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
 		// buffer[0] = '\0';
 	}
 

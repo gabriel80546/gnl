@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 15:41:41 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/27 16:01:19 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/resource.h>
-// #include "libft/libft.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 32
 #endif
 
-size_t	ft_strlen(const char *s)
+size_t		ft_strlen(const char *s)
 {
 	int	contador;
 
@@ -34,7 +33,7 @@ size_t	ft_strlen(const char *s)
 	return (contador);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char		*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*saida;
 	int		contador;
@@ -62,22 +61,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (saida);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t	contador;
-
-	if (dest == NULL && src == NULL)
-		return (NULL);
-	contador = 0;
-	while (contador < n)
-	{
-		*((char *)dest + contador) = *((char *)src + contador);
-		contador++;
-	}
-	return (dest);
-}
-
-char	*ft_strchr(const char *s, int c)
+char		*ft_strchr(const char *s, int c)
 {
 	char	*saida;
 
@@ -92,7 +76,7 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+void		*ft_memset(void *s, int c, size_t n)
 {
 	size_t	contador;
 
@@ -142,55 +126,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (saida);
 }
 
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void *saida;
-
-	saida = malloc(nmemb * size);
-	if (saida == NULL)
-		return (NULL);
-	// if ((nmemb * size) > 100000)
-	// 	ft_memset(saida, 0, 100000);
-	// else
-	ft_memset(saida, 0, nmemb * size);
-	return (saida);
-}
-
-void	print_nstring(char *str, int n)
-{
-	int i;
-	
-	i = 0;
-	while (i < n)
-	{
-		// printf("%c[%d]", str[i], str[i]);
-		printf("%c", str[i]);
-		i++;
-	}
-	return ;
-}
-
-
-char	*ft_strdup(const char *s)
-{
-	char	*saida;
-	int		i;
-
-	i = 0;
-	saida = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (saida == NULL)
-		return (NULL);
-	while (*((char *)s + i) != '\0')
-	{
-		*(saida + i) = *((char *)s + i);
-		i++;
-	}
-	*(saida + i) = '\0';
-	return (saida);
-}
-
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	static int	line_number = 0;
@@ -201,8 +137,7 @@ int		get_next_line(int fd, char **line)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
-
-	if(line_number == 0)
+	if (line_number == 0)
 	{
 		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if ((BUFFER_SIZE + 1) > 10)
@@ -256,7 +191,8 @@ int		get_next_line(int fd, char **line)
 		}
 		else if (read_saida == 0)
 		{
-			*line = (char *)ft_calloc(sizeof(char), ft_strlen(temp_line) + 1);
+			*line = (char *)malloc(sizeof(char) * (ft_strlen(temp_line) + 1));
+			*line[0] = '\0';
 			ft_memcpy(*line, temp_line, ft_strlen(temp_line));
 			free(temp_line);
 			free(buffer);

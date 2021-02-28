@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 14:42:01 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 17:17:32 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,36 @@ void		*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+	size_t	dados[2];
+
+	if (!dest || !src)
+    {
+		*((int *)dest) = 7;
+		*((int *)src) = 7;
+    }
+
+	if (dest == NULL && src == NULL)
+		return (NULL);
+
+	dados[0] = ((dest - src) > 0) ? (n - 1) : 0;
+	dados[1] = ((dest - src) > 0) ? (-1) : 1;
+	i = dados[0];
+	while (1)
+	{
+		if (((dest - src) > 0) && (int)i < 0)
+			break ;
+		else if (((dest - src) <= 0) && i >= n)
+			break ;
+		*((char *)dest + i) = *((char *)src + i);
+		i += dados[1];
+	}
+	return (dest);
+}
+
 
 char		*ft_strchr(const char *s, int c)
 {
@@ -163,6 +193,8 @@ int			get_next_util(char *bf[3], char *extra1, int flag, int len)
 {
 	if (ft_strchr(extra1, '\n') == NULL)
 	{
+		// printf("1\n");
+		// printf("bf[2] = '%s'; extra1 = '%s'\n", bf[2], extra1);
 		bf[1] = ft_strjoin(bf[2], extra1);
 		free(bf[2]);
 		bf[2] = bf[1];
@@ -170,6 +202,7 @@ int			get_next_util(char *bf[3], char *extra1, int flag, int len)
 	}
 	else
 	{
+		// printf("2\n");
 		bf[1] = ft_strjoin(bf[2], bf[0]);
 		free(bf[2]);
 		bf[2] = bf[1];
@@ -179,6 +212,7 @@ int			get_next_util(char *bf[3], char *extra1, int flag, int len)
 			bf[1] = ft_substr(bf[2], len, ft_strchr(extra1, '\n') - extra1);
 		free(bf[2]);
 		bf[2] = bf[1];
+		
 		return (2);
 	}
 }
@@ -195,17 +229,28 @@ int			get_fim(char *bf2, char **line)
 int			get_next_line(int fd, char **line)
 {
 	static char	buffer[BUFFER_SIZE + 1];
-	static int	last_off = 0;
+	// static int	last_off = 0;
+	// char		*buf;
+	int			flag;
 	int			read_saida;
 	char		*bf[3];
+	// char		*temp;
 
+	int debug;
+	debug = 1;
+	debug = 0;
+
+	flag = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
 	bf[2] = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	ft_memset(bf[2], 0, ft_min(10, (BUFFER_SIZE + 1)));
 	while (1)
 	{
-		if (last_off == 0)
+		if(debug == 1) { printf("buffer antes do read = '%s'\n", buffer); }
+		// if(debug == 0) { printf("flag = %d\n", flag); }
+		// if(ft_strchr(buffer, '\n') == NULL)
+		if(buffer[0] == '\0' || flag == 1)
 		{
 			read_saida = read(fd, buffer, BUFFER_SIZE);
 			if (read_saida < 0 || read_saida > BUFFER_SIZE)
@@ -215,7 +260,48 @@ int			get_next_line(int fd, char **line)
 			}
 			buffer[read_saida] = '\0';
 		}
-		if (last_off != 0)
+		else
+			read_saida = BUFFER_SIZE - 1;
+
+		if(debug == 1) { printf("buffer depois do read = '%s'\n", buffer); }
+
+		if (read_saida > 0 && read_saida <= BUFFER_SIZE)
+		{
+			flag = 1;
+			if(debug == 1) { printf("buffer = '%s'\n", buffer); }
+			bf[0] = buffer;
+			if (get_next_util(bf, buffer, 0, 0) == 2)
+			{
+				*line = bf[2];
+				if(debug == 1) { printf("*lines antes do memmove = '%s'\n", *line); }
+				ft_memmove(buffer, (ft_strchr(buffer, '\n') + 1), (BUFFER_SIZE - (ft_strchr(buffer, '\n') - buffer)));
+				if(debug == 1) { printf("*lines depois do memmove = '%s'\n", *line); }
+				// printf("buffer antes = '%s'\n", buffer);
+				// temp = (ft_strchr(buffer, '\n') + 1);
+				// printf("temp = '%s'\n", temp);
+				// read_saida = (ft_strlen(buffer) - (ft_strchr(buffer, '\n') - buffer + 1));
+				// printf("read_saida = %d\n", read_saida);
+				// ft_memcpy(buffer, temp, read_saida);
+				// buffer[read_saida] = '\0';
+				// printf("buffer depois = '%s'\n", buffer);
+				return (1);
+			}
+		}
+		else if (read_saida == 0)
+			return (get_fim(bf[2], line));
+		// if(debug == 0) { printf("buffer dps do read = '%s'\n", buffer); }
+		// else
+		// {
+		// 	printf("buffer antes = '%s'\n", buffer);
+		// 	// ft_memcpy(buffer, ft_strchr(buffer, '\n') + 1, (ft_strchr(buffer, '\n') - buffer + 1) - BUFFER_SIZE - 10);
+		// 	// printf("ft_strchr(buffer, '\\n') - buffer + 1 - BUFFER_SIZE = %ld\n", );
+		// 	printf("buffer = '%s'\n", (ft_strchr(buffer, '\n') + 1));
+		// 	// ft_memcpy(buffer, (char *)(ft_strchr(buffer, '\n') - buffer + 1), (BUFFER_SIZE - (ft_strchr(buffer, '\n') - buffer + 1)));
+		// 	ft_memcpy(buffer, (ft_strchr(buffer, '\n') + 1), (BUFFER_SIZE - (ft_strchr(buffer, '\n') - buffer)));
+		// 	printf("buffer = '%s'\n", buffer);
+		// 	return (-1);
+		// }
+		/* if (last_off != 0)
 		{
 			bf[0] = buffer;
 			if (get_next_util(bf, (buffer + last_off), 1, last_off) == 2)
@@ -227,18 +313,7 @@ int			get_next_line(int fd, char **line)
 			else
 				last_off = 0;
 		}
-		else if (read_saida > 0 && read_saida <= BUFFER_SIZE)
-		{
-			bf[0] = buffer;
-			if (get_next_util(bf, buffer, 0, 0) == 2)
-			{
-				*line = bf[2];
-				last_off += ft_strchr(buffer, '\n') - buffer + 1;
-				return (1);
-			}
-		}
-		else if (read_saida == 0)
-			return (get_fim(bf[2], line));
+		else  */
 	}
 	return (-1);
 }

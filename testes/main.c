@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/28 13:42:07 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 16:57:17 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,12 @@ int	main(void)
 
 	i = 0;
 	fd = open("antigo.txt", O_RDONLY);
-	while ((retorno = get_next_line(fd, &linha) == 1) && (i < 4 || 1))
+	while ((retorno = get_next_line(fd, &linha) == 1) && (i < 1 || 1))
 	{
 		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
 		free(linha);
 		i++;
+		// break;
 	}
 	if (retorno != -1)
 	{

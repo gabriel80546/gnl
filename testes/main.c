@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:25:10 by gabriel           #+#    #+#             */
-/*   Updated: 2021/02/28 12:18:46 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 13:42:07 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,16 @@ size_t	ft_strlen(const char *s);
 int	main(void)
 {
 	int fd;
-	// char **linhas;
 	char *linha;
-	// char *numero;
 	int i;
 	int retorno;
 
 	i = 0;
-	// linhas = (char **)malloc(sizeof(char *) * 50);
-
-	fd = open("1.txt", O_RDONLY);
-	while ((retorno = get_next_line(fd, &linha/* , 0 */) == 1) && (i < 4 || 1))
+	fd = open("antigo.txt", O_RDONLY);
+	while ((retorno = get_next_line(fd, &linha) == 1) && (i < 4 || 1))
 	{
-		// numero = ft_itoa(i);
-		// write(1, "linha[", 6);
-		// write(1, numero, ft_strlen(numero));
-		// write(1, "] = ", 4);
-		// write(1, linha, 3);
-		// write(1, "\n", 1);
 		printf("linha[%d] = '%s'(%ld); retorno = %i\n", i, linha, strlen(linha), retorno);
 		free(linha);
-		// free(numero);
-		// break ;
 		i++;
 	}
 	if (retorno != -1)
@@ -133,3 +121,9 @@ int	main(void)
 	}
 	return (0);
 }
+
+// while (read(fd, buffer, BUFFER_SIZE) > 0)
+// {
+// 	printf("buffer = '%s'\n", buffer);
+// }
+// printf("buffer = '%s'\n", buffer);

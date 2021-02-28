@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 12:20:00 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 13:52:08 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,108 +159,90 @@ char		*ft_strdup(const char *s)
 	return (saida);
 }
 
-int			get_next_util(char **buffers[3], char *extra1, int flag, int len)
+int			get_next_util(char *bf[3], char *extra1, int flag, int len)
 {
-
 	if (ft_strchr(extra1, '\n') == NULL)
 	{
-		*buffers[1] = ft_strjoin(*buffers[2], extra1);
-		free(*buffers[2]);
-		*buffers[2] = *buffers[1];
+		bf[1] = ft_strjoin(bf[2], extra1);
+		free(bf[2]);
+		bf[2] = bf[1];
 		return (1);
 	}
 	else
 	{
-		*buffers[1] = ft_strjoin(*buffers[2], *buffers[0]);
-		free(*buffers[2]);
-		*buffers[2] = *buffers[1];
+		bf[1] = ft_strjoin(bf[2], bf[0]);
+		free(bf[2]);
+		bf[2] = bf[1];
 		if (flag == 0)
-			*buffers[1] = ft_substr(*buffers[2], 0, ft_strchr(*buffers[2], '\n') - *buffers[2]);
+			bf[1] = ft_substr(bf[2], 0, ft_strchr(bf[2], '\n') - bf[2]);
 		else
-			*buffers[1] = ft_substr(*buffers[2], len, ft_strchr(extra1, '\n') - extra1);
-		free(*buffers[2]);
-		*buffers[2] = *buffers[1];
+			bf[1] = ft_substr(bf[2], len, ft_strchr(extra1, '\n') - extra1);
+		free(bf[2]);
+		bf[2] = bf[1];
 		return (2);
 	}
 }
-
 
 int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	static int	line_number = 0;
-	static int	last_offset = 0;
-	char		*temp_temp_line;
-	char		*temp_line;
+	static int	last_off = 0;
 	int			read_saida;
-	int			temp;
-	char		**buffers[3];
+	char		*bf[3];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
 	if (line_number == 0)
 	{
 		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if ((BUFFER_SIZE + 1) > 10)
-			ft_memset(buffer, 0, 10);
-		else
-			ft_memset(buffer, 0, (BUFFER_SIZE + 1));
+		ft_memset(buffer, 0, ft_min(10, (BUFFER_SIZE + 1)));
 	}
-	temp_line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if ((BUFFER_SIZE + 1) > 10)
-		ft_memset(temp_line, 0, 10);
-	else
-		ft_memset(temp_line, 0, (BUFFER_SIZE + 1));
+	bf[2] = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	ft_memset(bf[2], 0, ft_min(10, (BUFFER_SIZE + 1)));
 	while (1)
 	{
-
-		if (last_offset == 0)
+		if (last_off == 0)
 		{
 			read_saida = read(fd, buffer, BUFFER_SIZE);
 			if (read_saida < 0 || read_saida > BUFFER_SIZE)
 			{
-				free(temp_line);
+				free(bf[2]);
 				free(buffer);
 				line_number = 0;
 				return (-1);
 			}
 			buffer[read_saida] = '\0';
 		}
-		if (last_offset != 0)
+		if (last_off != 0)
 		{
-			buffers[0] = &buffer;
-			buffers[1] = &temp_temp_line;
-			buffers[2] = &temp_line;
-			temp = get_next_util(buffers, (buffer + last_offset), 1, last_offset);
-			if (temp == 2)
+			bf[0] = buffer;
+			if (get_next_util(bf, (buffer + last_off), 1, last_off) == 2)
 			{
-				*line = temp_line;
-				last_offset += ft_strlen(temp_line) + 1;
+				*line = bf[2];
+				last_off += ft_strlen(bf[2]) + 1;
 				return (1);
 			}
-			else if (temp == 1)
-				last_offset = 0;
+			else
+				last_off = 0;
 		}
 		else if (read_saida == 0)
 		{
-			*line = (char *)malloc(sizeof(char) * (ft_strlen(temp_line) + 1));
-			ft_memset(*line, 0, (ft_strlen(temp_line) + 1));
-			ft_memcpy(*line, temp_line, ft_strlen(temp_line));
-			free(temp_line);
+			*line = (char *)malloc(sizeof(char) * (ft_strlen(bf[2]) + 1));
+			ft_memset(*line, 0, (ft_strlen(bf[2]) + 1));
+			ft_memcpy(*line, bf[2], ft_strlen(bf[2]));
+			free(bf[2]);
 			free(buffer);
 			line_number = 0;
 			return (0);
 		}
 		else if (read_saida <= BUFFER_SIZE)
 		{
-			buffers[0] = &buffer;
-			buffers[1] = &temp_temp_line;
-			buffers[2] = &temp_line;
-			temp = get_next_util(buffers, buffer, 0, 0);
-			if (temp == 2)
+			bf[0] = buffer;
+			if (get_next_util(bf, buffer, 0, 0) == 2)
 			{
-				*line = temp_line;
-				last_offset += ft_strchr(buffer, '\n') - buffer + 1;
+				*line = bf[2];
+				last_off += ft_strchr(buffer, '\n') - buffer + 1;
 				line_number++;
 				return (1);
 			}

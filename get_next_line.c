@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 19:51:21 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 20:07:46 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
 			nums[1] = (ft_strlen(bu) - (ft_strchr(bu, '\n') - bu + 1));
 			ft_memcpy(bu, (ft_strchr(bu, '\n') + 1), nums[1]);
 			bu[nums[1]] = '\0';
+			nums[2] = 1;
 			return (1);
 		}
 	}
@@ -91,15 +92,17 @@ int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
 		ft_memset(*line, 0, (ft_strlen(bf[2]) + 1));
 		ft_memcpy(*line, bf[2], ft_strlen(bf[2]));
 		free(bf[2]);
+		nums[2] = 0;
 		return (0);
 	}
+	nums[2] = 2;
 	return (2);
 }
 
 int			get_next_line(int fd, char **line)
 {
 	static char	bu[BUFFER_SIZE + 1];
-	int			nums[2];
+	int			nums[3];
 	char		*bf[3];
 
 	nums[0] = 0;
@@ -121,10 +124,7 @@ int			get_next_line(int fd, char **line)
 		}
 		else
 			nums[1] = BUFFER_SIZE - 1;
-
-		nums[2] = get_fim(bf, nums, line, bu);
-		if (nums[2] != 2)
+		if (get_fim(bf, nums, line, bu) != 2)
 			return (nums[2]);
 	}
-	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/27 16:22:14 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 08:57:03 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,34 +143,19 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void *saida;
+// void	*ft_calloc(size_t nmemb, size_t size)
+// {
+// 	void *saida;
 
-	saida = malloc(nmemb * size);
-	if (saida == NULL)
-		return (NULL);
-	if ((nmemb * size) > 100000)
-		ft_memset(saida, 0, 100000);
-	else
-		ft_memset(saida, 0, nmemb * size);
-	return (saida);
-}
-
-void	print_nstring(char *str, int n)
-{
-	int i;
-	
-	i = 0;
-	while (i < n)
-	{
-		// printf("%c[%d]", str[i], str[i]);
-		printf("%c", str[i]);
-		i++;
-	}
-	return ;
-}
-
+// 	saida = malloc(nmemb * size);
+// 	if (saida == NULL)
+// 		return (NULL);
+// 	if ((nmemb * size) > 100000)
+// 		ft_memset(saida, 0, 100000);
+// 	else
+// 		ft_memset(saida, 0, nmemb * size);
+// 	return (saida);
+// }
 
 char	*ft_strdup(const char *s)
 {
@@ -197,7 +182,7 @@ int		get_next_line(int fd, char **line)
 	static int	last_offset = 0;
 	char		*temp_temp_line;
 	char		*temp_line;
-	int			size_temp_line;
+	// int			size_temp_line;
 	int			read_saida;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
@@ -216,7 +201,7 @@ int		get_next_line(int fd, char **line)
 		ft_memset(temp_line, 0, 10);
 	else
 		ft_memset(temp_line, 0, (BUFFER_SIZE + 1));
-	size_temp_line = 0;
+	// size_temp_line = 0;
 
 	while (1)
 	{
@@ -239,11 +224,11 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer + last_offset);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				last_offset = 0;
 			}
 			else
@@ -251,11 +236,11 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, last_offset, ft_strchr(buffer + last_offset, '\n') - buffer - last_offset);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				last_offset += ft_strlen(temp_line) + 1;
 				*line = temp_line;
 				return (1);
@@ -263,8 +248,9 @@ int		get_next_line(int fd, char **line)
 		}
 		else if (read_saida == 0)
 		{
-			*line = (char *)ft_calloc(sizeof(char), size_temp_line + 1);
-			ft_memcpy(*line, temp_line, size_temp_line);
+			*line = (char *)malloc(sizeof(char) * (ft_strlen(temp_line) + 1));
+			ft_memset(*line, 0, (ft_strlen(temp_line) + 1));
+			ft_memcpy(*line, temp_line, ft_strlen(temp_line));
 			free(temp_line);
 			free(buffer);
 			line_number = 0;
@@ -278,11 +264,11 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, 0, ft_strchr(temp_line, '\n') - temp_line);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 				*line = temp_line;
 				last_offset += ft_strchr(buffer, '\n') - buffer + 1;
 				line_number++;
@@ -293,7 +279,7 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				size_temp_line = ft_strlen(temp_line);
+				// size_temp_line = ft_strlen(temp_line);
 			}
 		}
 	}

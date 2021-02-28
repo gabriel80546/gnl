@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 08:57:03 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 09:12:38 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/resource.h>
-// #include "libft/libft.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 32
 #endif
 
-size_t	ft_strlen(const char *s)
+size_t		ft_strlen(const char *s)
 {
 	int	contador;
 
@@ -34,7 +33,7 @@ size_t	ft_strlen(const char *s)
 	return (contador);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char		*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*saida;
 	int		contador;
@@ -62,7 +61,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (saida);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void		*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	contador;
 
@@ -77,7 +76,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char	*ft_strchr(const char *s, int c)
+char		*ft_strchr(const char *s, int c)
 {
 	char	*saida;
 
@@ -92,7 +91,7 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+void		*ft_memset(void *s, int c, size_t n)
 {
 	size_t	contador;
 
@@ -142,22 +141,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (saida);
 }
 
-
-// void	*ft_calloc(size_t nmemb, size_t size)
-// {
-// 	void *saida;
-
-// 	saida = malloc(nmemb * size);
-// 	if (saida == NULL)
-// 		return (NULL);
-// 	if ((nmemb * size) > 100000)
-// 		ft_memset(saida, 0, 100000);
-// 	else
-// 		ft_memset(saida, 0, nmemb * size);
-// 	return (saida);
-// }
-
-char	*ft_strdup(const char *s)
+char		*ft_strdup(const char *s)
 {
 	char	*saida;
 	int		i;
@@ -175,19 +159,18 @@ char	*ft_strdup(const char *s)
 	return (saida);
 }
 
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	static int	line_number = 0;
 	static int	last_offset = 0;
 	char		*temp_temp_line;
 	char		*temp_line;
-	// int			size_temp_line;
 	int			read_saida;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
-	if(line_number == 0)
+	if (line_number == 0)
 	{
 		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if ((BUFFER_SIZE + 1) > 10)
@@ -195,14 +178,11 @@ int		get_next_line(int fd, char **line)
 		else
 			ft_memset(buffer, 0, (BUFFER_SIZE + 1));
 	}
-
 	temp_line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if ((BUFFER_SIZE + 1) > 10)
 		ft_memset(temp_line, 0, 10);
 	else
 		ft_memset(temp_line, 0, (BUFFER_SIZE + 1));
-	// size_temp_line = 0;
-
 	while (1)
 	{
 		if (last_offset == 0)
@@ -224,11 +204,9 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer + last_offset);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				last_offset = 0;
 			}
 			else
@@ -236,11 +214,9 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, last_offset, ft_strchr(buffer + last_offset, '\n') - buffer - last_offset);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				last_offset += ft_strlen(temp_line) + 1;
 				*line = temp_line;
 				return (1);
@@ -254,7 +230,6 @@ int		get_next_line(int fd, char **line)
 			free(temp_line);
 			free(buffer);
 			line_number = 0;
-
 			return (0);
 		}
 		else if (read_saida <= BUFFER_SIZE)
@@ -264,11 +239,9 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				temp_temp_line = ft_substr(temp_line, 0, ft_strchr(temp_line, '\n') - temp_line);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 				*line = temp_line;
 				last_offset += ft_strchr(buffer, '\n') - buffer + 1;
 				line_number++;
@@ -279,7 +252,6 @@ int		get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				// size_temp_line = ft_strlen(temp_line);
 			}
 		}
 	}

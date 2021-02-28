@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 09:12:38 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 09:15:04 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,9 +204,9 @@ int			get_next_line(int fd, char **line)
 				temp_temp_line = ft_strjoin(temp_line, buffer + last_offset);
 				free(temp_line);
 				temp_line = temp_temp_line;
-				temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
-				free(temp_line);
-				temp_line = temp_temp_line;
+				// temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
+				// free(temp_line);
+				// temp_line = temp_temp_line;
 				last_offset = 0;
 			}
 			else

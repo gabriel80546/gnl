@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 20:14:06 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 20:26:50 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,32 +99,37 @@ int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
 	return (2);
 }
 
+typedef struct	s_gnl
+{
+	int			nums[3];
+	char		*bf[3];
+}				t_gnl;
+
 int			get_next_line(int fd, char **line)
 {
 	static char	bu[BUFFER_SIZE + 1];
-	int			nums[3];
-	char		*bf[3];
+	t_gnl		gnl;
 
-	nums[0] = 0;
+	gnl.nums[0] = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
-	bf[2] = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	ft_memset(bf[2], 0, ft_min(10, (BUFFER_SIZE + 1)));
+	gnl.bf[2] = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	ft_memset(gnl.bf[2], 0, ft_min(10, (BUFFER_SIZE + 1)));
 	while (1)
 	{
-		if (bu[0] == '\0' || nums[0] == 1)
+		if (bu[0] == '\0' || gnl.nums[0] == 1)
 		{
-			nums[1] = read(fd, bu, BUFFER_SIZE);
-			if (nums[1] < 0 || nums[1] > BUFFER_SIZE)
+			gnl.nums[1] = read(fd, bu, BUFFER_SIZE);
+			if (gnl.nums[1] < 0 || gnl.nums[1] > BUFFER_SIZE)
 			{
-				free(bf[2]);
+				free(gnl.bf[2]);
 				return (-1);
 			}
-			bu[nums[1]] = '\0';
+			bu[gnl.nums[1]] = '\0';
 		}
 		else
-			nums[1] = BUFFER_SIZE - 1;
-		if (get_fim(bf, nums, line, bu) != 2)
-			return (nums[2]);
+			gnl.nums[1] = BUFFER_SIZE - 1;
+		if (get_fim(gnl.bf, gnl.nums, line, bu) != 2)
+			return (gnl.nums[2]);
 	}
 }

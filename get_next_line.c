@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 13:52:08 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 14:42:01 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,21 +183,24 @@ int			get_next_util(char *bf[3], char *extra1, int flag, int len)
 	}
 }
 
+int			get_fim(char *bf2, char **line)
+{
+	*line = (char *)malloc(sizeof(char) * (ft_strlen(bf2) + 1));
+	ft_memset(*line, 0, (ft_strlen(bf2) + 1));
+	ft_memcpy(*line, bf2, ft_strlen(bf2));
+	free(bf2);
+	return (0);
+}
+
 int			get_next_line(int fd, char **line)
 {
-	static char	*buffer;
-	static int	line_number = 0;
+	static char	buffer[BUFFER_SIZE + 1];
 	static int	last_off = 0;
 	int			read_saida;
 	char		*bf[3];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
-	if (line_number == 0)
-	{
-		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		ft_memset(buffer, 0, ft_min(10, (BUFFER_SIZE + 1)));
-	}
 	bf[2] = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	ft_memset(bf[2], 0, ft_min(10, (BUFFER_SIZE + 1)));
 	while (1)
@@ -208,8 +211,6 @@ int			get_next_line(int fd, char **line)
 			if (read_saida < 0 || read_saida > BUFFER_SIZE)
 			{
 				free(bf[2]);
-				free(buffer);
-				line_number = 0;
 				return (-1);
 			}
 			buffer[read_saida] = '\0';
@@ -226,27 +227,18 @@ int			get_next_line(int fd, char **line)
 			else
 				last_off = 0;
 		}
-		else if (read_saida == 0)
-		{
-			*line = (char *)malloc(sizeof(char) * (ft_strlen(bf[2]) + 1));
-			ft_memset(*line, 0, (ft_strlen(bf[2]) + 1));
-			ft_memcpy(*line, bf[2], ft_strlen(bf[2]));
-			free(bf[2]);
-			free(buffer);
-			line_number = 0;
-			return (0);
-		}
-		else if (read_saida <= BUFFER_SIZE)
+		else if (read_saida > 0 && read_saida <= BUFFER_SIZE)
 		{
 			bf[0] = buffer;
 			if (get_next_util(bf, buffer, 0, 0) == 2)
 			{
 				*line = bf[2];
 				last_off += ft_strchr(buffer, '\n') - buffer + 1;
-				line_number++;
 				return (1);
 			}
 		}
+		else if (read_saida == 0)
+			return (get_fim(bf[2], line));
 	}
 	return (-1);
 }

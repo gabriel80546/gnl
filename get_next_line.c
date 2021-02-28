@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 18:56:51 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 19:51:21 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,30 @@ int			get_next_util(char *vars[3], char *extra1)
 	}
 }
 
-int			get_fim(char *bf2, char **line)
+int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
 {
-	*line = (char *)malloc(sizeof(char) * (ft_strlen(bf2) + 1));
-	ft_memset(*line, 0, (ft_strlen(bf2) + 1));
-	ft_memcpy(*line, bf2, ft_strlen(bf2));
-	free(bf2);
-	return (0);
+	if (nums[1] > 0 && nums[1] <= BUFFER_SIZE)
+	{
+		nums[0] = 1;
+		bf[0] = bu;
+		if (get_next_util(bf, bu) == 2)
+		{
+			*line = bf[2];
+			nums[1] = (ft_strlen(bu) - (ft_strchr(bu, '\n') - bu + 1));
+			ft_memcpy(bu, (ft_strchr(bu, '\n') + 1), nums[1]);
+			bu[nums[1]] = '\0';
+			return (1);
+		}
+	}
+	else if (nums[1] == 0)
+	{
+		*line = (char *)malloc(sizeof(char) * (ft_strlen(bf[2]) + 1));
+		ft_memset(*line, 0, (ft_strlen(bf[2]) + 1));
+		ft_memcpy(*line, bf[2], ft_strlen(bf[2]));
+		free(bf[2]);
+		return (0);
+	}
+	return (2);
 }
 
 int			get_next_line(int fd, char **line)
@@ -104,21 +121,10 @@ int			get_next_line(int fd, char **line)
 		}
 		else
 			nums[1] = BUFFER_SIZE - 1;
-		if (nums[1] > 0 && nums[1] <= BUFFER_SIZE)
-		{
-			nums[0] = 1;
-			bf[0] = bu;
-			if (get_next_util(bf, bu) == 2)
-			{
-				*line = bf[2];
-				nums[1] = (ft_strlen(bu) - (ft_strchr(bu, '\n') - bu + 1));
-				ft_memcpy(bu, (ft_strchr(bu, '\n') + 1), nums[1]);
-				bu[nums[1]] = '\0';
-				return (1);
-			}
-		}
-		else if (nums[1] == 0)
-			return (get_fim(bf[2], line));
+
+		nums[2] = get_fim(bf, nums, line, bu);
+		if (nums[2] != 2)
+			return (nums[2]);
 	}
 	return (-1);
 }

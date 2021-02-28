@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 09:15:04 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 12:20:00 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,12 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	int		alocar;
 
 	if (s == NULL)
-		return (NULL);
+		return ((char *)1);
 	s_len = ft_strlen(s);
 	alocar = ((start >= s_len) ? 1 : ft_min(s_len + 1, len + 1));
 	saida = (char *)malloc(sizeof(char) * alocar);
 	if (saida == NULL)
-		return (NULL);
+		return ((char *)2);
 	if (start > s_len)
 	{
 		*(saida + 0) = '\0';
@@ -159,6 +159,32 @@ char		*ft_strdup(const char *s)
 	return (saida);
 }
 
+int			get_next_util(char **buffers[3], char *extra1, int flag, int len)
+{
+
+	if (ft_strchr(extra1, '\n') == NULL)
+	{
+		*buffers[1] = ft_strjoin(*buffers[2], extra1);
+		free(*buffers[2]);
+		*buffers[2] = *buffers[1];
+		return (1);
+	}
+	else
+	{
+		*buffers[1] = ft_strjoin(*buffers[2], *buffers[0]);
+		free(*buffers[2]);
+		*buffers[2] = *buffers[1];
+		if (flag == 0)
+			*buffers[1] = ft_substr(*buffers[2], 0, ft_strchr(*buffers[2], '\n') - *buffers[2]);
+		else
+			*buffers[1] = ft_substr(*buffers[2], len, ft_strchr(extra1, '\n') - extra1);
+		free(*buffers[2]);
+		*buffers[2] = *buffers[1];
+		return (2);
+	}
+}
+
+
 int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
@@ -167,6 +193,8 @@ int			get_next_line(int fd, char **line)
 	char		*temp_temp_line;
 	char		*temp_line;
 	int			read_saida;
+	int			temp;
+	char		**buffers[3];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || line == NULL)
 		return (-1);
@@ -185,6 +213,7 @@ int			get_next_line(int fd, char **line)
 		ft_memset(temp_line, 0, (BUFFER_SIZE + 1));
 	while (1)
 	{
+
 		if (last_offset == 0)
 		{
 			read_saida = read(fd, buffer, BUFFER_SIZE);
@@ -199,28 +228,18 @@ int			get_next_line(int fd, char **line)
 		}
 		if (last_offset != 0)
 		{
-			if (ft_strchr(buffer + last_offset, '\n') == NULL)
+			buffers[0] = &buffer;
+			buffers[1] = &temp_temp_line;
+			buffers[2] = &temp_line;
+			temp = get_next_util(buffers, (buffer + last_offset), 1, last_offset);
+			if (temp == 2)
 			{
-				temp_temp_line = ft_strjoin(temp_line, buffer + last_offset);
-				free(temp_line);
-				temp_line = temp_temp_line;
-				// temp_temp_line = ft_substr(temp_line, 0, ft_strlen(temp_line));
-				// free(temp_line);
-				// temp_line = temp_temp_line;
-				last_offset = 0;
-			}
-			else
-			{
-				temp_temp_line = ft_strjoin(temp_line, buffer);
-				free(temp_line);
-				temp_line = temp_temp_line;
-				temp_temp_line = ft_substr(temp_line, last_offset, ft_strchr(buffer + last_offset, '\n') - buffer - last_offset);
-				free(temp_line);
-				temp_line = temp_temp_line;
-				last_offset += ft_strlen(temp_line) + 1;
 				*line = temp_line;
+				last_offset += ft_strlen(temp_line) + 1;
 				return (1);
 			}
+			else if (temp == 1)
+				last_offset = 0;
 		}
 		else if (read_saida == 0)
 		{
@@ -234,24 +253,16 @@ int			get_next_line(int fd, char **line)
 		}
 		else if (read_saida <= BUFFER_SIZE)
 		{
-			if (ft_strchr(buffer, '\n') != NULL)
+			buffers[0] = &buffer;
+			buffers[1] = &temp_temp_line;
+			buffers[2] = &temp_line;
+			temp = get_next_util(buffers, buffer, 0, 0);
+			if (temp == 2)
 			{
-				temp_temp_line = ft_strjoin(temp_line, buffer);
-				free(temp_line);
-				temp_line = temp_temp_line;
-				temp_temp_line = ft_substr(temp_line, 0, ft_strchr(temp_line, '\n') - temp_line);
-				free(temp_line);
-				temp_line = temp_temp_line;
 				*line = temp_line;
 				last_offset += ft_strchr(buffer, '\n') - buffer + 1;
 				line_number++;
 				return (1);
-			}
-			else
-			{
-				temp_temp_line = ft_strjoin(temp_line, buffer);
-				free(temp_line);
-				temp_line = temp_temp_line;
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 17:17:32 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 17:36:54 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int			get_next_line(int fd, char **line)
 	int			flag;
 	int			read_saida;
 	char		*bf[3];
-	// char		*temp;
+	char		*temp;
 
 	int debug;
 	debug = 1;
@@ -273,17 +273,17 @@ int			get_next_line(int fd, char **line)
 			if (get_next_util(bf, buffer, 0, 0) == 2)
 			{
 				*line = bf[2];
-				if(debug == 1) { printf("*lines antes do memmove = '%s'\n", *line); }
-				ft_memmove(buffer, (ft_strchr(buffer, '\n') + 1), (BUFFER_SIZE - (ft_strchr(buffer, '\n') - buffer)));
-				if(debug == 1) { printf("*lines depois do memmove = '%s'\n", *line); }
-				// printf("buffer antes = '%s'\n", buffer);
-				// temp = (ft_strchr(buffer, '\n') + 1);
-				// printf("temp = '%s'\n", temp);
-				// read_saida = (ft_strlen(buffer) - (ft_strchr(buffer, '\n') - buffer + 1));
-				// printf("read_saida = %d\n", read_saida);
-				// ft_memcpy(buffer, temp, read_saida);
-				// buffer[read_saida] = '\0';
-				// printf("buffer depois = '%s'\n", buffer);
+				// if(debug == 1) { printf("*lines antes do memmove = '%s'\n", *line); }
+				// ft_memmove(buffer, (ft_strchr(buffer, '\n') + 1), (BUFFER_SIZE - (ft_strchr(buffer, '\n') - buffer)));
+				// if(debug == 1) { printf("*lines depois do memmove = '%s'\n", *line); }
+				if(debug == 1) { printf("buffer antes = '%s'\n", buffer); }
+				temp = (ft_strchr(buffer, '\n') + 1);
+				if(debug == 1) { printf("temp = '%s'\n", temp); }
+				read_saida = (ft_strlen(buffer) - (ft_strchr(buffer, '\n') - buffer + 1));
+				if(debug == 1) { printf("read_saida = %d\n", read_saida); }
+				ft_memcpy(buffer, temp, read_saida);
+				buffer[read_saida] = '\0';
+				if(debug == 1) { printf("buffer depois = '%s'\n", buffer); }
 				return (1);
 			}
 		}

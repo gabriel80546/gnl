@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 20:26:50 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 21:24:26 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,6 @@ int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
 	nums[2] = 2;
 	return (2);
 }
-
-typedef struct	s_gnl
-{
-	int			nums[3];
-	char		*bf[3];
-}				t_gnl;
 
 int			get_next_line(int fd, char **line)
 {

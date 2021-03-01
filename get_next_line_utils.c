@@ -6,14 +6,14 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:37 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 18:53:25 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 21:40:35 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
-size_t		ft_strlen(const char *s)
+static size_t	ft_strlen(const char *s)
 {
 	int	contador;
 
@@ -25,7 +25,7 @@ size_t		ft_strlen(const char *s)
 	return (contador);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+static char		*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*saida;
 	int		contador;
@@ -53,7 +53,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (saida);
 }
 
-void		*ft_memcpy(void *dest, const void *src, size_t n)
+static void		*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	contador;
 
@@ -68,7 +68,7 @@ void		*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char		*ft_strchr(const char *s, int c)
+static char		*ft_strchr(const char *s, int c)
 {
 	char	*saida;
 
@@ -83,7 +83,7 @@ char		*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-void		*ft_memset(void *s, int c, size_t n)
+static void		*ft_memset(void *s, int c, size_t n)
 {
 	size_t	contador;
 

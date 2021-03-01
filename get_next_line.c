@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:06:33 by gpassos-          #+#    #+#             */
-/*   Updated: 2021/02/28 21:27:08 by gabriel          ###   ########.fr       */
+/*   Updated: 2021/02/28 21:40:54 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_min(int a, int b)
 		return (a);
 }
 
-char		*ft_substr(char const *s, unsigned int start, size_t len)
+static char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*saida;
 	size_t	contador;
@@ -49,7 +49,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (saida);
 }
 
-int			get_next_util(char *vars[3], char *extra1)
+static int	get_next_util(char *vars[3], char *extra1)
 {
 	if (ft_strchr(extra1, '\n') == NULL)
 	{
@@ -70,7 +70,7 @@ int			get_next_util(char *vars[3], char *extra1)
 	}
 }
 
-int			get_fim(char *bf[3], int nums[3], char **line, char bu[])
+static int	get_fim(char *bf[3], int nums[3], char **line, char bu[])
 {
 	if (nums[1] > 0 && nums[1] <= BUFFER_SIZE)
 	{
